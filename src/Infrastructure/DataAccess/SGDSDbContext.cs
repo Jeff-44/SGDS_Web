@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.DataAccess
 {
-    public class SGDSDbConctext : IdentityDbContext<ApplicationUser>
+    public class SGDSDbContext : IdentityDbContext<ApplicationUser>
     {
-        public SGDSDbConctext(DbContextOptions<SGDSDbConctext> options)
+        public SGDSDbContext(DbContextOptions<SGDSDbContext> options)
             : base(options)
         {
         }

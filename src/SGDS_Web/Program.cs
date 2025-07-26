@@ -9,12 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<SGDSDbConctext>(options =>
+builder.Services.AddDbContext<SGDSDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<SGDSDbConctext>()
+    .AddEntityFrameworkStores<SGDSDbContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
