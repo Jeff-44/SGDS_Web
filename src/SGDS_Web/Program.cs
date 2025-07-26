@@ -12,6 +12,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<SGDSDbConctext>(options =>
     options.UseNpgsql(connectionString));
 
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<SGDSDbConctext>()
     .AddDefaultTokenProviders();
