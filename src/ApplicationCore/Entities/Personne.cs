@@ -9,7 +9,7 @@ namespace ApplicationCore.Entities
 {
     public class Personne : Audit
     {
-        public long Id { get; set; }
+        [Key] public long Id { get; set; }
         public string CIN { get; set; }
         public string NIF { get; set; }
         [Required(ErrorMessage = "Le nom est obligatoire.")]

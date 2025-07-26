@@ -4,6 +4,10 @@ using Infrastructure.DataAccess;
 using Infrastructure.Identity;
 using SGDS_Web.Utils;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using ApplicationCore.Interfaces.IRepositories;
+using Infrastructure.Implementations.Repositories;
+using Infrastructure.Implementations.Services;
+using ApplicationCore.Interfaces.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +23,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+//Repositories
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IDonneurRepository, DonneurRepository>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+//Services
+builder.Services.AddScoped<IDonneurService, DonneurService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

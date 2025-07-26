@@ -7,16 +7,14 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Entities.Collectes
 {
-    public class Donneur : Audit
+    public class Donneur : Personne
     {
         [Display(Name = "Code Donneur")]
-        public string? Code { get; set; }
-        public long? PersonneId { get; set; }
-        public Personne? Personne { get; set; }
+        public string Code { get; set; } = Guid.NewGuid().ToString();
         [Display(Name = "Groupe Sanguin")]
-        public string? GroupeSanguin { get; set; }
+        public string GroupeSanguin { get; set; }
         public long? PersonneDeContactId { get; set; }
         [Display(Name = "Personne de Contact")]
-        public Personne? PersonneDeContact { get; set; }
+        public PersonneDeContact? PersonneDeContact { get; set; }
     }
 }

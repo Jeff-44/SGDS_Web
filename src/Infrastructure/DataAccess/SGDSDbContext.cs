@@ -1,4 +1,5 @@
-﻿using Infrastructure.Identity;
+﻿using ApplicationCore.Entities.Collectes;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,6 +16,7 @@ namespace Infrastructure.DataAccess
             : base(options)
         {
         }
+        public DbSet<Donneur> Donneurs { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
