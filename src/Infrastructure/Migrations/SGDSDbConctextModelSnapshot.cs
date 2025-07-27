@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Migrations
 {
-    [DbContext(typeof(SGDSDbConctext))]
+    [DbContext(typeof(SGDSDbContext))]
     partial class SGDSDbConctextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -21,6 +21,143 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ApplicationCore.Entities.Collectes.Donneur", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Adresse")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CIN")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreeLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreePar")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly?>("DateNaissance")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("GroupeSanguin")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifieLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiePar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NIF")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Occupation")
+                        .HasColumnType("text");
+
+                    b.Property<long?>("PersonneDeContactId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Prenom")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sexe")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("StatutMatrimonial")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Telephone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonneDeContactId");
+
+                    b.ToTable("Donneurs");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.PersonneDeContact", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Adresse")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CIN")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreeLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreePar")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly?>("DateNaissance")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifieLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiePar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NIF")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Occupation")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Prenom")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sexe")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("StatutMatrimonial")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Telephone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PersonneDeContact");
+                });
 
             modelBuilder.Entity("Infrastructure.Identity.ApplicationUser", b =>
                 {
@@ -180,12 +317,10 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
@@ -222,12 +357,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
@@ -235,6 +368,15 @@ namespace Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Collectes.Donneur", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.PersonneDeContact", "PersonneDeContact")
+                        .WithMany()
+                        .HasForeignKey("PersonneDeContactId");
+
+                    b.Navigation("PersonneDeContact");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

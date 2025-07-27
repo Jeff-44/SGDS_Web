@@ -1,4 +1,5 @@
-﻿using Infrastructure.Identity;
+﻿using ApplicationCore.Entities.Collectes;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.DataAccess
 {
-    public class SGDSDbConctext : IdentityDbContext<ApplicationUser>
+    public class SGDSDbContext : IdentityDbContext<ApplicationUser>
     {
-        public SGDSDbConctext(DbContextOptions<SGDSDbConctext> options)
+        public SGDSDbContext(DbContextOptions<SGDSDbContext> options)
             : base(options)
         {
         }
+        public DbSet<Donneur> Donneurs { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
