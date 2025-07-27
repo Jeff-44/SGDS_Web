@@ -26,14 +26,14 @@ namespace Infrastructure.Implementations.Services
             throw new NotImplementedException();
         }
 
-        public Task DeleteDonneurAsync(Donneur donneur)
+        public async Task DeleteDonneurAsync(Donneur donneur)
         {
-            throw new NotImplementedException();
+            await _repository.DeleteAsync(donneur);
         }
 
-        public Task<bool> DonneurExistsAsync(long id)
+        public async Task<bool> DonneurExistsAsync(long id)
         {
-            throw new NotImplementedException();
+            return await _repository.ExistsAsync(id);
         }
 
         public async Task<IEnumerable<Donneur>> GetAllDonneursAsync()

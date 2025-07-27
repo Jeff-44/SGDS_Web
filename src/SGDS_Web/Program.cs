@@ -1,13 +1,16 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using ApplicationCore.Interfaces.IRepositories;
+using ApplicationCore.Interfaces.IServices;
 using Infrastructure.DataAccess;
 using Infrastructure.Identity;
-using SGDS_Web.Utils;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using ApplicationCore.Interfaces.IRepositories;
 using Infrastructure.Implementations.Repositories;
 using Infrastructure.Implementations.Services;
-using ApplicationCore.Interfaces.IServices;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SGDS_Web.Mappings;
+using SGDS_Web.Utils;
+//using SGDS_Web.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,28 +24,36 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
     .AddEntityFrameworkStores<SGDSDbContext>()
     .AddDefaultTokenProviders();
 
+//builder.Services.AddAutoMapper(typeof(DonneurVMMappingProfile));
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 //Repositories
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IDonneurRepository, DonneurRepository>();
+
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 //Services
 builder.Services.AddScoped<IDonneurService, DonneurService>();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseMigrationsEndPoint();
+using (var scope = app.Services.CreateScope()) 
+{ 
+    var context = scope.ServiceProvider.GetRequiredService<SGDSDbContext>();
+    context.Database.Migrate();
 }
-else
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseMigrationsEndPoint();
+    }
+    else
+    {
+        app.UseExceptionHandler("/Home/Error");
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+    }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

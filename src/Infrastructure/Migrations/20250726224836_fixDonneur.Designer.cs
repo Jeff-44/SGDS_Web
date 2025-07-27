@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(SGDSDbContext))]
-    [Migration("20250726185452_EditDonneur")]
-    partial class EditDonneur
+    [Migration("20250726224836_fixDonneur")]
+    partial class fixDonneur
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,18 +40,14 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime?>("CreeLe")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreePar")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("DateNaissance")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly?>("DateNaissance")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -92,6 +88,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Telephone")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -122,8 +119,8 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreePar")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("DateNaissance")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly?>("DateNaissance")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -157,6 +154,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Telephone")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
