@@ -7,7 +7,6 @@ using Infrastructure.Implementations.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using SGDS_Web.Mappings;
 using SGDS_Web.Utils;
 //using SGDS_Web.Mappings;
@@ -24,7 +23,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
     .AddEntityFrameworkStores<SGDSDbContext>()
     .AddDefaultTokenProviders();
 
-//builder.Services.AddAutoMapper(typeof(DonneurVMMappingProfile));
+//builder.Services.AddAutoMapper(config => { }, typeof(DonneurVMMappingProfile).Assembly);
+// Option C: use marker types instead of Assembly
+builder.Services.AddAutoMapper(cfg => {
+}, typeof(DonneurVMMappingProfile));
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

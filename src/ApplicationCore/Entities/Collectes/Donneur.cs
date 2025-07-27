@@ -12,6 +12,8 @@ namespace ApplicationCore.Entities.Collectes
         //[Display(Name = "Code Donneur")]
         //public string Code { get; set; } = Guid.NewGuid().ToString();
         public string GroupeSanguin { get; set; }
+        public bool EstEligible { get; set; }
+        public bool EstActif { get; set; }
         public long? PersonneDeContactId { get; set; }
         [Display(Name = "Personne de Contact")]
         public PersonneDeContact? PersonneDeContact { get; set; }
