@@ -18,6 +18,7 @@ namespace Infrastructure.DataAccess
         {
         }
         public DbSet<Donneur> Donneurs { get; set; }
+        public DbSet<Don> Dons { get; set; }
         public DbSet<Dossier> Dossiers { get; set; }
         public DbSet<Collecte> Collectes { get; set; }
         public DbSet<Centre> Centres { get; set; }
