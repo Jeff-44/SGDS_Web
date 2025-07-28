@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Interfaces.IServices
 {
-    public interface IDossierService : IGenericService<Dossier>
+    public interface ICollecteService : IGenericService<Collecte>
     {
     }
 }

@@ -22,5 +22,6 @@ namespace SGDS_Web.ViewModels
         public string? PriseDeMedicamentsActuel { get; set; }
         [Required(ErrorMessage="Le poids est obligatoire")]
         public float Poids { get; set; }
+        public Donneur? Donneur { get; set; }
     }
 }

@@ -29,7 +29,8 @@ namespace SGDS_Web.Controllers
         // GET: DonneurController/Details/5
         public async Task<IActionResult> Details(long id)
         {
-            return View(await _donneurService.GetDonneurByIdAsync(id));
+            var donneur = await _donneurService.GetDonneurByIdAsync(id);
+            return View(_mapper.Map<DonneurVM>(donneur));
         }
 
         // GET: DonneurController/Create
