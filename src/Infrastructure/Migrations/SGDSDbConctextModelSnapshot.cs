@@ -22,6 +22,83 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ApplicationCore.Entities.Collectes.Collecte", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("CentreId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CreeLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreePar")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("DateCollecte")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifieLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiePar")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CentreId");
+
+                    b.ToTable("Collectes");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Collectes.Don", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CollecteId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreeLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreePar")
+                        .HasColumnType("text");
+
+                    b.Property<long>("DonneurId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("ModifieLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiePar")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TestePositifPourMaladie")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Volume")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollecteId");
+
+                    b.HasIndex("DonneurId");
+
+                    b.ToTable("Dons");
+                });
+
             modelBuilder.Entity("ApplicationCore.Entities.Collectes.Donneur", b =>
                 {
                     b.Property<long>("Id")
@@ -43,11 +120,20 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreePar")
                         .HasColumnType("text");
 
-                    b.Property<DateOnly?>("DateNaissance")
+                    b.Property<DateOnly>("DateNaissance")
                         .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
+
+                    b.Property<bool>("EstActif")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EstEligible")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("EstRegulier")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("GroupeSanguin")
                         .IsRequired()
@@ -77,6 +163,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Raison")
+                        .HasColumnType("text");
+
                     b.Property<string>("Sexe")
                         .IsRequired()
                         .HasColumnType("text");
@@ -93,6 +182,101 @@ namespace Infrastructure.Migrations
                     b.HasIndex("PersonneDeContactId");
 
                     b.ToTable("Donneurs");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Collectes.Dossier", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime?>("CreeLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreePar")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly?>("DateInfectionRecente")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DetailsMaladieChronique")
+                        .HasColumnType("text");
+
+                    b.Property<long>("DonneurId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("EstAnemie")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("EstEnceinte")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("InfectionRecente")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("MaladieChronique")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("ModifieLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiePar")
+                        .HasColumnType("text");
+
+                    b.Property<float>("Poids")
+                        .HasColumnType("real");
+
+                    b.Property<string>("PriseDeMedicamentsActuel")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DonneurId")
+                        .IsUnique();
+
+                    b.ToTable("Dossiers");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Location.Centre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreeLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreePar")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifieLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiePar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NomCentre")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TypeCentre")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("VilleId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Centres");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.PersonneDeContact", b =>
@@ -116,7 +300,7 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreePar")
                         .HasColumnType("text");
 
-                    b.Property<DateOnly?>("DateNaissance")
+                    b.Property<DateOnly>("DateNaissance")
                         .HasColumnType("date");
 
                     b.Property<string>("Email")
@@ -370,6 +554,36 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ApplicationCore.Entities.Collectes.Collecte", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Location.Centre", "Centre")
+                        .WithMany()
+                        .HasForeignKey("CentreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Centre");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Collectes.Don", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Collectes.Collecte", "Collecte")
+                        .WithMany()
+                        .HasForeignKey("CollecteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApplicationCore.Entities.Collectes.Donneur", "Donneur")
+                        .WithMany()
+                        .HasForeignKey("DonneurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Collecte");
+
+                    b.Navigation("Donneur");
+                });
+
             modelBuilder.Entity("ApplicationCore.Entities.Collectes.Donneur", b =>
                 {
                     b.HasOne("ApplicationCore.Entities.PersonneDeContact", "PersonneDeContact")
@@ -377,6 +591,17 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("PersonneDeContactId");
 
                     b.Navigation("PersonneDeContact");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Collectes.Dossier", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Collectes.Donneur", "Donneur")
+                        .WithOne("Dossier")
+                        .HasForeignKey("ApplicationCore.Entities.Collectes.Dossier", "DonneurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Donneur");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -428,6 +653,11 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Collectes.Donneur", b =>
+                {
+                    b.Navigation("Dossier");
                 });
 #pragma warning restore 612, 618
         }

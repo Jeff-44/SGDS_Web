@@ -4,7 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using SGDS_Web.ViewModels;
+using SGDS_Web.ViewModels.Donneurs;
 using System.Threading.Tasks;
 
 namespace SGDS_Web.Controllers
@@ -29,7 +29,8 @@ namespace SGDS_Web.Controllers
         // GET: DonneurController/Details/5
         public async Task<IActionResult> Details(long id)
         {
-            return View(await _donneurService.GetDonneurByIdAsync(id));
+            var donneur = await _donneurService.GetDonneurByIdAsync(id);
+            return View(_mapper.Map<DonneurVM>(donneur));
         }
 
         // GET: DonneurController/Create

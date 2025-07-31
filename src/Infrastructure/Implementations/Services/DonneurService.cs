@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Implementations.Services
 {
-    public class DonneurService : IDonneurService
+    public class DonneurService :GenericService<Donneur>, IDonneurService
     {
         private readonly IDonneurRepository _repository;
-        public DonneurService(IDonneurRepository repository)
+        public DonneurService(IDonneurRepository repository) : base(repository)
         {
             _repository = repository;
         }

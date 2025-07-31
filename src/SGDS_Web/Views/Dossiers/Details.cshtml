@@ -1,0 +1,73 @@
+﻿@using SGDS_Web.ViewModels.Dossiers
+@model DossierVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Dossier</h4>
+    <hr />
+    <dl class="row">
+        @* <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Donneur)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Donneur.CIN)
+        </dd> *@
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MaladieChronique)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaladieChronique)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DetailsMaladieChronique)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DetailsMaladieChronique)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EstAnemie)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EstAnemie)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EstEnceinte)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EstEnceinte)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.InfectionRecente)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.InfectionRecente)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateInfectionRecente)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateInfectionRecente)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PriseDeMedicamentsActuel)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PriseDeMedicamentsActuel)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Poids)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Poids)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

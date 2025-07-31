@@ -10,16 +10,11 @@ namespace ApplicationCore.Entities.Collectes
 {
     public class Collecte : Audit
     {
-        [Key] public long Id { get; set; }
-        [Required]
-        [Display(Name = "Date Collecte")]
-        [DataType(DataType.Date)]
-        public DateTime DateCollecte { get; set; }
-        [Required]
-        [Display(Name = "Centre")]
+        public long Id { get; set; }
+        public string? Description { get; set; }
+        public DateOnly DateCollecte { get; set; }
         public int CentreId { get; set; }
         public Centre? Centre { get; set; }
-        //[Required]
-        //public long Organisateur { get; set; }
+   
     }
 }

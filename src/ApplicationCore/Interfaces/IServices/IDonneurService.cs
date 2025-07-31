@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Interfaces.IServices
 {
-    public interface IDonneurService
+    public interface IDonneurService : IGenericService<Donneur>
     {
         Task<IEnumerable<Donneur>> GetAllDonneursAsync();
         Task<Donneur?> GetDonneurByIdAsync(long id);

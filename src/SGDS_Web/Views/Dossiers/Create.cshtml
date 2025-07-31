@@ -1,0 +1,78 @@
+﻿@using SGDS_Web.ViewModels.Dossiers
+@model DossierVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Nouveau Dossier</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DonneurId"></label>
+                <select asp-for="DonneurId"
+                        asp-items="Model.Donneurs"
+                        class="form-control js-select2">
+                    <option value="">-- Sélectionnez un donneur --</option>
+                </select>
+                <span asp-validation-for="DonneurId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="MaladieChronique" /> @Html.DisplayNameFor(model => model.MaladieChronique)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetailsMaladieChronique" class="control-label"></label>
+                <input asp-for="DetailsMaladieChronique" class="form-control" />
+                <span asp-validation-for="DetailsMaladieChronique" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="EstAnemie" /> @Html.DisplayNameFor(model => model.EstAnemie)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="EstEnceinte" /> @Html.DisplayNameFor(model => model.EstEnceinte)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="InfectionRecente" /> @Html.DisplayNameFor(model => model.InfectionRecente)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateInfectionRecente" class="control-label"></label>
+                <input asp-for="DateInfectionRecente" class="form-control" />
+                <span asp-validation-for="DateInfectionRecente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriseDeMedicamentsActuel" class="control-label"></label>
+                <input asp-for="PriseDeMedicamentsActuel" class="form-control" />
+                <span asp-validation-for="PriseDeMedicamentsActuel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Poids" class="control-label"></label>
+                <input asp-for="Poids" class="form-control" />
+                <span asp-validation-for="Poids" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

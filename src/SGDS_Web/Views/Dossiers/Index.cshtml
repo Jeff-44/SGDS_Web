@@ -1,0 +1,84 @@
+﻿@using SGDS_Web.ViewModels.Dossiers
+@model IEnumerable<DossierVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+@*             <th>
+                @Html.DisplayNameFor(model => model.Donneur)
+            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.MaladieChronique)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DetailsMaladieChronique)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstAnemie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstEnceinte)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InfectionRecente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateInfectionRecente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PriseDeMedicamentsActuel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Poids)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+@*             <td>
+                @Html.DisplayFor(modelItem => item.Donneur.CIN)
+            </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.MaladieChronique)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DetailsMaladieChronique)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstAnemie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstEnceinte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InfectionRecente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateInfectionRecente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PriseDeMedicamentsActuel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Poids)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Entities;
+﻿using ApplicationCore.Entities.Collectes;
 using ApplicationCore.Interfaces.IRepositories;
 using Infrastructure.DataAccess;
 using System;
@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Implementations.Repositories
 {
-    public class PersonneRepository : GenericRepository<Personne>, IPersonneRepository
+    public class DonRepository : GenericRepository<Don>, IDonRepository
     {
-        public PersonneRepository(SGDSDbContext context) : base(context)
+        public DonRepository(SGDSDbContext context) : base(context)
         {
+            
         }
     }
 }

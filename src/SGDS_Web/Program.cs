@@ -23,21 +23,33 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
     .AddEntityFrameworkStores<SGDSDbContext>()
     .AddDefaultTokenProviders();
 
-//builder.Services.AddAutoMapper(config => { }, typeof(DonneurVMMappingProfile).Assembly);
-// Option C: use marker types instead of Assembly
-builder.Services.AddAutoMapper(cfg => {
-}, typeof(DonneurVMMappingProfile));
+//Mappings
+builder.Services.AddAutoMapper(cfg => {}, typeof(DonneurVMMappingProfile));
+builder.Services.AddAutoMapper(cfg => {}, typeof(DossierVMMappingProfile));
+builder.Services.AddAutoMapper(cfg => {}, typeof(CollecteVMProfile));
+builder.Services.AddAutoMapper(cfg => {}, typeof(CentreVMProfile));
+builder.Services.AddAutoMapper(cfg => {}, typeof(DonVMProfile));
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 //Repositories
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IDonneurRepository, DonneurRepository>();
+builder.Services.AddScoped<IDossierRepository, DossierRepository>();
+builder.Services.AddScoped<ICollecteRepository, CollecteRepository>();
+builder.Services.AddScoped<ICentreRepository, CentreRepository>();
+builder.Services.AddScoped<IDonRepository, DonRepository>();
 
+//Utils
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 //Services
+builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 builder.Services.AddScoped<IDonneurService, DonneurService>();
+builder.Services.AddScoped<IDossierService, DossierService>();
+builder.Services.AddScoped<ICollecteService, CollecteService>();
+builder.Services.AddScoped<ICentreService, CentreService>();
+builder.Services.AddScoped<IDonService, DonService>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope()) 
