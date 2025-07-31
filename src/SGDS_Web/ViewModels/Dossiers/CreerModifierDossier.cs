@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using ApplicationCore.Entities.Collectes;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace SGDS_Web.ViewModels.Dossiers
@@ -6,6 +7,8 @@ namespace SGDS_Web.ViewModels.Dossiers
     public class CreerModifierDossier
     {
         public long Id { get; set; }
+        [Display(Name = "NIF")]
+        [Required(ErrorMessage = "Le numéro de NIF du donneur est obligatoire")]
         public long DonneurId { get; set; }
         public bool MaladieChronique { get; set; }
         public string? DetailsMaladieChronique { get; set; }
@@ -22,7 +25,6 @@ namespace SGDS_Web.ViewModels.Dossiers
         public string? PriseDeMedicamentsActuel { get; set; }
         [Required(ErrorMessage = "Le poids est obligatoire")]
         public float Poids { get; set; }
-     
-        public List<SelectListItem>? Donneurs { get; set; }
+        public SelectList? Donneurs { get; set; }
     }
 }

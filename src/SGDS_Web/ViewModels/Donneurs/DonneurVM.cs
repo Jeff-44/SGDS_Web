@@ -29,5 +29,8 @@ namespace SGDS_Web.ViewModels.Donneurs
         public string? Telephone { get; set; }
         [EmailAddress(ErrorMessage = "L'email est invalide.")]
         public string? Email { get; set; }
+        public bool EstEligible { get; set; } = false;
+        public bool? EstRegulier { get; set; }
+        public bool EstActif { get; set; } = true;
     }
 }

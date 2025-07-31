@@ -26,6 +26,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
 //Mappings
 builder.Services.AddAutoMapper(cfg => {}, typeof(DonneurVMMappingProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(DossierVMMappingProfile));
+builder.Services.AddAutoMapper(cfg => {}, typeof(CreerModifierDossierProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(CollecteVMProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(CentreVMProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(DonVMProfile));
@@ -50,6 +51,9 @@ builder.Services.AddScoped<IDossierService, DossierService>();
 builder.Services.AddScoped<ICollecteService, CollecteService>();
 builder.Services.AddScoped<ICentreService, CentreService>();
 builder.Services.AddScoped<IDonService, DonService>();
+
+// Other services
+builder.Services.AddScoped<IEligibilityService, EligibilityService>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope()) 

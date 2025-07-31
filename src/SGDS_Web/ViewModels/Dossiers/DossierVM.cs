@@ -11,6 +11,10 @@ namespace SGDS_Web.ViewModels.Dossiers
         [Display(Name ="NIF")]
         public long DonneurId { get; set; }
         [Required(ErrorMessage = "Le numéro de NIF du donneur est obligatoire")]
+
+        //-----------------------------
+        public Donneur? Donneur { get; set; }
+        //-----------------------------
         public bool MaladieChronique { get; set; }
         public string? DetailsMaladieChronique { get; set; }
         [Display(Name = "Est anémie")]

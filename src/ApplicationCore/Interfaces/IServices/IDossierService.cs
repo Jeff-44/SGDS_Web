@@ -9,5 +9,7 @@ namespace ApplicationCore.Interfaces.IServices
 {
     public interface IDossierService : IGenericService<Dossier>
     {
+        Task<Dossier?> GetDossierByIdAsync(long id);
+        Task<IEnumerable<Dossier>?> GetAllDossiersAsync();
     }
 }

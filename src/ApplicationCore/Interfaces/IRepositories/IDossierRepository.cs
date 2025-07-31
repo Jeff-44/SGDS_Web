@@ -9,5 +9,7 @@ namespace ApplicationCore.Interfaces.IRepositories
 {
     public interface IDossierRepository : IGenericRepository<Dossier> 
     {
+        Task<Dossier?> GetDossierByIdAsync(long id);
+        Task<IEnumerable<Dossier>?> GetAllDossiersAsync();
     }
 }
