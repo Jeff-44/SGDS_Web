@@ -25,6 +25,17 @@ namespace Infrastructure.DataAccess
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            // Define the one-to-one relationship between Donneur and Dossier
+            builder.Entity<Dossier>()
+                   .HasOne(dossier => dossier.Donneur)
+                   .WithOne(donneur => donneur.Dossier)
+                   .HasForeignKey<Dossier>(dossier => dossier.DonneurId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Dossier>()
+                   .HasIndex(dossier => dossier.DonneurId)
+                   .IsUnique();
+
         }
 
         

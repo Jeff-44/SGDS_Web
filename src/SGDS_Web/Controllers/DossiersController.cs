@@ -5,16 +5,23 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SGDS_Web.ViewModels;
+using SGDS_Web.ViewModels.Donneurs;
+using SGDS_Web.ViewModels.Dossiers;
 
 namespace SGDS_Web.Controllers
 {
     public class DossiersController : Controller
     {
         private readonly IDossierService _dossierService;
+        private readonly IDonneurService _donneurService;
         private readonly IMapper _mapper;
-        public DossiersController(IDossierService dossierService, IMapper mapper)
+        public DossiersController(
+            IDossierService dossierService,
+            IDonneurService donneurService,
+            IMapper mapper)
         {
             _dossierService = dossierService;
+            _donneurService = donneurService;
             _mapper = mapper;
         }
         // GET: DossiersController
@@ -34,9 +41,14 @@ namespace SGDS_Web.Controllers
         }
 
         // GET: DossiersController/Create
-        public IActionResult Create(long donneurId, string? CIN, string? NIF)
+        public async Task<IActionResult> Create(long donneurId)
         {
-            var vm = new DossierVM { DonneurId = donneurId, Donneur = new Donneur { Id = donneurId, CIN = CIN ?? "", NIF = NIF ?? "" } };
+            var donneurs = await _donneurService.GetAllAsync();
+            
+            var vm = new DossierVM 
+            {
+                Donneurs = new SelectList(donneurs, "Id", "NIF"),
+            };
             return View(vm);
         }
 
@@ -51,12 +63,13 @@ namespace SGDS_Web.Controllers
                 {
                     var dossier = _mapper.Map<Dossier>(vm);
                     await _dossierService.AddAsync(dossier);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Create));
                 }
             }
             catch
             {
-                return View();
+                var donneurs = await _donneurService.GetAllAsync();
+                vm.Donneurs = new SelectList(donneurs, "Id", "NIF", vm.DonneurId);
             }
             return View(vm);
         }

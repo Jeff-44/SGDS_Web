@@ -11,7 +11,7 @@ namespace ApplicationCore.Entities.Collectes
     {
         public long Id { get; set; }
         public long DonneurId { get; set; }
-        public Donneur? Donneur { get; set; }
+        public Donneur Donneur { get; set; }
         public bool MaladieChronique { get; set; }
         public string? DetailsMaladieChronique { get; set; }
         public bool EstAnemie { get; set; }

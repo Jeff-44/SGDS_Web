@@ -1,4 +1,5 @@
-﻿@model SGDS_Web.ViewModels.DossierVM
+﻿@using SGDS_Web.ViewModels.Dossiers
+@model DossierVM
 
 @{
     ViewData["Title"] = "Create";
@@ -12,15 +13,14 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="Donneur.Id" name="name" value="" />
             <div class="form-group">
-                <label asp-for="Donneur.CIN" class="control-label"></label>
-                <input asp-for="Donneur.CIN" class="form-control" disabled />
-                @* <select asp-for="DonneurId" class ="form-control" asp-items="ViewBag.DonneurId"></select> *@
-            </div>
-            <div class="form-group">
-                <label asp-for="Donneur.NIF" class="control-label"></label>
-                <input asp-for="Donneur.NIF" class="form-control" disabled />
+                <label asp-for="DonneurId"></label>
+                <select asp-for="DonneurId"
+                        asp-items="Model.Donneurs"
+                        class="form-control js-select2">
+                    <option value="">-- Sélectionnez un donneur --</option>
+                </select>
+                <span asp-validation-for="DonneurId" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">

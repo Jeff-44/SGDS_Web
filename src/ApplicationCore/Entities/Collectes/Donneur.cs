@@ -19,5 +19,6 @@ namespace ApplicationCore.Entities.Collectes
         public long? PersonneDeContactId { get; set; }
         [Display(Name = "Personne de Contact")]
         public PersonneDeContact? PersonneDeContact { get; set; }
+        public Dossier? Dossier { get; set; }
     }
 }

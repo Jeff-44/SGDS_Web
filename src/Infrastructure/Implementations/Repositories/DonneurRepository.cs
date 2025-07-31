@@ -14,6 +14,5 @@ namespace Infrastructure.Implementations.Repositories
         public DonneurRepository(SGDSDbContext context) : base(context)
         {
         }
-        // You can add any specific methods for DonneurRepository here if needed.
     }
 }

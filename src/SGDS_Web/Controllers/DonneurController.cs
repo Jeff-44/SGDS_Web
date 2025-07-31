@@ -4,7 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using SGDS_Web.ViewModels;
+using SGDS_Web.ViewModels.Donneurs;
 using System.Threading.Tasks;
 
 namespace SGDS_Web.Controllers

@@ -1,9 +1,9 @@
-﻿using ApplicationCore.Entities.Collectes;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
-namespace SGDS_Web.ViewModels
+namespace SGDS_Web.ViewModels.Dossiers
 {
-    public class DossierVM
+    public class CreerModifierDossier
     {
         public long Id { get; set; }
         public long DonneurId { get; set; }
@@ -20,8 +20,9 @@ namespace SGDS_Web.ViewModels
         public DateOnly? DateInfectionRecente { get; set; }
         [Display(Name = "Prise de médicaments actuel")]
         public string? PriseDeMedicamentsActuel { get; set; }
-        [Required(ErrorMessage="Le poids est obligatoire")]
+        [Required(ErrorMessage = "Le poids est obligatoire")]
         public float Poids { get; set; }
-        public Donneur? Donneur { get; set; }
+     
+        public List<SelectListItem>? Donneurs { get; set; }
     }
 }

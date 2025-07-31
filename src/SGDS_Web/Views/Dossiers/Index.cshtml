@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SGDS_Web.ViewModels.DossierVM>
+﻿@using SGDS_Web.ViewModels.Dossiers
+@model IEnumerable<DossierVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,9 +13,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+@*             <th>
                 @Html.DisplayNameFor(model => model.Donneur)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.MaladieChronique)
             </th>
@@ -45,9 +46,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+@*             <td>
                 @Html.DisplayFor(modelItem => item.Donneur.CIN)
-            </td>
+            </td> *@
             <td>
                 @Html.DisplayFor(modelItem => item.MaladieChronique)
             </td>

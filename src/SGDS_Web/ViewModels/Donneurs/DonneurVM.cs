@@ -1,7 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace SGDS_Web.ViewModels
+namespace SGDS_Web.ViewModels.Donneurs
 {
     public class DonneurVM
     {
