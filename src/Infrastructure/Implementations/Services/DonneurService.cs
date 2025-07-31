@@ -38,12 +38,16 @@ namespace Infrastructure.Implementations.Services
 
         public async Task<IEnumerable<Donneur>> GetAllDonneursAsync()
         {
-            return await _repository.GetAllAsync();
+            return await _repository.GetAllDonneursAsync();
         }
 
         public async Task<Donneur?> GetDonneurByIdAsync(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            if (!await DonneurExistsAsync(id))
+            {
+                throw new ArgumentException($"Donneur {id} introuvable.");
+            }
+            return await _repository.GetDonneurByIdAsync(id);
         }
 
         public async Task UpdateDonneurAsync(Donneur donneur)

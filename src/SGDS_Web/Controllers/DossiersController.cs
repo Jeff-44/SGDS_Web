@@ -27,7 +27,7 @@ namespace SGDS_Web.Controllers
         // GET: DossiersController
         public async Task<IActionResult> Index()
         {
-            var dossiers = await _dossierService.GetAllAsync();
+            var dossiers = await _dossierService.GetAllDossiersAsync();
             var dossiervms = _mapper.Map<List<DossierVM>>(dossiers);
             return View(dossiervms);
         }
@@ -35,7 +35,7 @@ namespace SGDS_Web.Controllers
         // GET: DossiersController/Details/5
         public async Task<IActionResult> Details(long id)
         {
-            var dossier = await _dossierService.GetByIdAsync(id);
+            var dossier = await _dossierService.GetDossierByIdAsync(id);
             var dossiervm = _mapper.Map<DossierVM>(dossier);
             return View(dossiervm);
         }
@@ -45,7 +45,7 @@ namespace SGDS_Web.Controllers
         {
             var donneurs = await _donneurService.GetAllAsync();
             
-            var vm = new DossierVM 
+            var vm = new CreerModifierDossier 
             {
                 Donneurs = new SelectList(donneurs, "Id", "NIF"),
             };
@@ -55,7 +55,7 @@ namespace SGDS_Web.Controllers
         // POST: DossiersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DossierVM vm)
+        public async Task<IActionResult> Create(CreerModifierDossier vm)
         {
             try
             {
@@ -78,28 +78,32 @@ namespace SGDS_Web.Controllers
         public async Task<IActionResult> Edit(long id)
         {
             var dossier = await _dossierService.GetByIdAsync(id);
-            var dossiervm = _mapper.Map<DossierVM>(dossier);
+            var dossiervm = _mapper.Map<CreerModifierDossier>(dossier);
+
+            var donneurs = await _donneurService.GetAllAsync();
+            dossiervm.Donneurs = new SelectList(donneurs, "Id", "NIF");
             return View(dossiervm);
         }
 
         // POST: DossiersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(DossierVM vm)
+        public async Task<IActionResult> Edit(CreerModifierDossier vm)
         {
             try
             {
                 if (ModelState.IsValid) 
                 {
                     var dossier = await _dossierService.GetByIdAsync(vm.Id);
-                    dossier = _mapper.Map<Dossier>(vm);
+                    _mapper.Map(vm, dossier);
                     await _dossierService.UpdateAsync(dossier);
                     return RedirectToAction(nameof(Details), new { vm.Id });
                 }
             }
             catch
             {
-                return View();
+                var donneurs = await _donneurService.GetAllAsync();
+                vm.Donneurs = new SelectList(donneurs, "Id", "NIF", vm.Id);
             }
             return View(vm);
         }

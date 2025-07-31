@@ -9,6 +9,7 @@ namespace ApplicationCore.Interfaces.IRepositories
 {
     public interface IDonneurRepository : IGenericRepository<Donneur>
     {
-
+        Task<IEnumerable<Donneur>> GetAllDonneursAsync();
+        Task<Donneur?> GetDonneurByIdAsync(long donneurId);
     }
 }

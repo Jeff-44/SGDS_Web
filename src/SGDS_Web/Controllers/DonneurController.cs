@@ -12,16 +12,23 @@ namespace SGDS_Web.Controllers
     public class DonneurController : Controller
     {
         private readonly IDonneurService _donneurService;
+        private readonly IEligibilityService _eligibilityService;
         private readonly IMapper _mapper;
-        public DonneurController(IDonneurService donneurService, IMapper mapper)
+        public DonneurController(
+                IDonneurService donneurService,
+                IEligibilityService eligibilityService,
+                IMapper mapper
+            )
         {
             _donneurService = donneurService;
+            _eligibilityService = eligibilityService;
             _mapper = mapper;
         }
         // GET: DonneurController
         public async Task<IActionResult> Index()
         {
             var donneurs = await _donneurService.GetAllDonneursAsync();
+            await _eligibilityService.CheckEligibilityAsync(donneurs);
             var donneursList = _mapper.Map<List<DonneurVM>>(donneurs);
             return View(donneursList);
         }
@@ -30,6 +37,8 @@ namespace SGDS_Web.Controllers
         public async Task<IActionResult> Details(long id)
         {
             var donneur = await _donneurService.GetDonneurByIdAsync(id);
+            await _eligibilityService.CheckEligibilityAsync(donneur);
+
             return View(_mapper.Map<DonneurVM>(donneur));
         }
 
