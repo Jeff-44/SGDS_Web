@@ -9,5 +9,7 @@ namespace ApplicationCore.Interfaces.IServices
 {
     public interface ICollecteService : IGenericService<Collecte>
     {
+        Task<Collecte?> GetCollecteByIdAsync(long id);
+        Task<IEnumerable<Collecte>?> GetAllCollectesAsync();
     }
 }

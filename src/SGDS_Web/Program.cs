@@ -28,8 +28,12 @@ builder.Services.AddAutoMapper(cfg => {}, typeof(DonneurVMMappingProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(DossierVMMappingProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(CreerModifierDossierProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(CollecteVMProfile));
+builder.Services.AddAutoMapper(cfg => {}, typeof(CreerModifierCollecteProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(CentreVMProfile));
+builder.Services.AddAutoMapper(cfg => {}, typeof(CreerModifierCentreProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(DonVMProfile));
+builder.Services.AddAutoMapper(cfg => {}, typeof(CreerModifierDonProfile));
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -40,6 +44,11 @@ builder.Services.AddScoped<IDossierRepository, DossierRepository>();
 builder.Services.AddScoped<ICollecteRepository, CollecteRepository>();
 builder.Services.AddScoped<ICentreRepository, CentreRepository>();
 builder.Services.AddScoped<IDonRepository, DonRepository>();
+
+//Reference data repositories
+builder.Services.AddScoped<ICommuneRepository, CommuneRepository>();
+builder.Services.AddScoped<IArrondissementRepository, ArrondissementRepository>();
+builder.Services.AddScoped<IDepartementRepository, DepartementRepository>();
 
 //Utils
 builder.Services.AddTransient<IEmailSender, EmailSender>();
@@ -52,6 +61,11 @@ builder.Services.AddScoped<ICollecteService, CollecteService>();
 builder.Services.AddScoped<ICentreService, CentreService>();
 builder.Services.AddScoped<IDonService, DonService>();
 
+//Reference data services
+builder.Services.AddScoped<ICommuneService, CommuneService>();
+builder.Services.AddScoped<IArrondissementService, ArrondissementService>();
+builder.Services.AddScoped<IDepartementService, DepartementService>();
+
 // Other services
 builder.Services.AddScoped<IEligibilityService, EligibilityService>();
 var app = builder.Build();
@@ -61,17 +75,17 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<SGDSDbContext>();
     context.Database.Migrate();
 }
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseMigrationsEndPoint();
-    }
-    else
-    {
-        app.UseExceptionHandler("/Home/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-    }
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseMigrationsEndPoint();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

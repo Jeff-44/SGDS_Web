@@ -1,18 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ApplicationCore.Entities.Reference;
+using System.ComponentModel.DataAnnotations;
 
-namespace SGDS_Web.ViewModels
+namespace SGDS_Web.ViewModels.Centres
 {
     public class CentreVM
     {
-        [Key] public int Id { get; set; }
+        public int Id { get; set; }
 
-        [Display(Name = "Code Centre")]
-        public string? Code { get; set; }
-        [Required]
+        //[Display(Name = "Code Centre")]
+        //public string? Code { get; set; }
+
         [Display(Name = "Nom Centre")]
         public string NomCentre { get; set; }
-        [Required]
-        [Display(Name = "Type Centre")]
+
+        [Display(Name = "Categorie")]
         public string TypeCentre { get; set; }
 
         //FIXE OU MOBILE
@@ -22,6 +23,7 @@ namespace SGDS_Web.ViewModels
 
         [Required]
         [Display(Name = "Ville")]
-        public long VilleId { get; set; }
+        public int CommuneId { get; set; }
+        public Commune Commune { get; set; }
     }
 }

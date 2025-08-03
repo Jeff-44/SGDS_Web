@@ -30,6 +30,8 @@ namespace SGDS_Web.ViewModels.Donneurs
         [EmailAddress(ErrorMessage = "L'email est invalide.")]
         public string? Email { get; set; }
         public bool EstEligible { get; set; } = false;
+        public DateOnly? ProchaineDateEligible { get; set; }
+        public DateOnly? DateDernierDon { get; set; }
         public bool? EstRegulier { get; set; }
         public bool EstActif { get; set; } = true;
     }

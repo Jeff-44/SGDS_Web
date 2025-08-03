@@ -15,36 +15,90 @@ namespace Infrastructure.Implementations.Services
         {
             _donneurService = donneurService;
         }
-        public bool IsEligible(Donneur donneur)
+        public async Task<bool> IsEligibleAsync(Donneur donneur)
         {
-            if (donneur.Dossier.EstAnemie) return false;
+            const int MIN_AGE = 18;
+            const int MAX_AGE = 65;
+            const float MIN_WEIGHT = 50.0f;
+            const int MINIMUM_DAYS_SINCE_LAST_DONATION = 90;
+            const int MINIMUM_DAYS_SINCE_LAST_INFECTION = 90;
+
+            var age = CalculateAge(donneur);
+
+            if (donneur.Dossier == null)
+            {
+                await UpdateRaisonEligibilityAsync(donneur, "Dossier du donneur est manquant.");
+                return false;
+            }
+
+            if (!donneur.EstActif)
+            {
+                await UpdateRaisonEligibilityAsync(donneur, "Donneur inactif.");
+                return false;
+            }
+
+            //if (donneur.EstActif.DateDernierDon.HasValue)
+            //{
+            //    await UpdateRaisonEligibilityAsync(donneur, "Donneur inactif.");
+            //    return false;
+            //}
+
+            if (donneur.Dossier.EstAnemie)
+            {
+                await UpdateRaisonEligibilityAsync(donneur.Dossier.Donneur, "Le donneur est anémié.");
+                return false;
+            }
 
             if (donneur.Dossier.EstEnceinte) return false;
+            if (donneur.Dossier.EstEnceinte)
+            {
+                await UpdateRaisonEligibilityAsync(donneur.Dossier.Donneur, "Le donneur est actuellement enceinte.");
+                return false;
+            }
 
-            if (donneur.Dossier.InfectionRecente) return false;
-
-            if (donneur.Dossier.MaladieChronique) return false;
-
-            //if (string.IsNullOrEmpty(donneur.Dossier.PriseDeMedicamentsActuel)) return false;
-
-            if(CalculateAge(donneur) < 18) return false;
-
-            return true;
-        }
-
-        public bool IsEligible(Dossier dossierDonneur)
-        {
-            if (dossierDonneur.EstAnemie) return false;
-
-            if (dossierDonneur.EstEnceinte) return false;
-
-            if (dossierDonneur.InfectionRecente) return false;
-
-            if (dossierDonneur.MaladieChronique) return false;
+            if (donneur.Dossier.MaladieChronique)
+            {
+                await UpdateRaisonEligibilityAsync(donneur.Dossier.Donneur, "Le donneur souffre d'une maladie chronique.");
+                return false;
+            }
 
             //if (string.IsNullOrEmpty(donneur.Dossier.PriseDeMedicamentsActuel)) return false;
 
-            if (CalculateAge(dossierDonneur.Donneur) < 18) return false;
+            
+            if (donneur.Dossier.Poids < MIN_WEIGHT)
+            {
+                await UpdateRaisonEligibilityAsync(donneur.Dossier.Donneur, "Poids inférieur à 50 kg.");
+                return false;
+            }
+            
+            if (age < MIN_AGE || age > 65)
+            {
+                await UpdateRaisonEligibilityAsync(donneur.Dossier.Donneur, "Age non autorisé pour donner du sang.");
+                return false;
+            }
+
+
+            //if (donneur.DateDernierDon.HasValue)
+            //{
+            //    var daysSinceLastDonation = (DateTime.Now - donneur.DateDernierDon.Value.ToDateTime(TimeOnly.MinValue)).TotalDays;
+            //    if (daysSinceLastDonation < MINIMUM_DAYS_SINCE_LAST_DONATION)
+            //    {
+            //        await UpdateRaisonEligibilityAsync(donneur.Dossier.Donneur, "Le donneur doit attendre au moins 90 jours depuis son dernier don.");
+            //        return false;
+            //    }
+            //}
+
+            if (CheckLastDonationDateAsync(donneur, MINIMUM_DAYS_SINCE_LAST_DONATION).GetAwaiter().GetResult()) 
+            {
+                await UpdateRaisonEligibilityAsync(donneur.Dossier.Donneur, "Le donneur doit attendre au moins 90 jours depuis son dernier don.");
+                return false;
+            }
+
+            if (CheckRecentInfectionDateAsync(donneur, MINIMUM_DAYS_SINCE_LAST_INFECTION).GetAwaiter().GetResult()) 
+            {
+                await UpdateRaisonEligibilityAsync(donneur.Dossier.Donneur, "Le donneur a une infection récente.");
+                return false;
+            }
 
             return true;
         }
@@ -52,10 +106,51 @@ namespace Infrastructure.Implementations.Services
         public int CalculateAge(Donneur donneur)
         {
             var age = DateTime.Now.Year - donneur.DateNaissance.Year;
+            //if (DateTime.Now.Month < donneur.DateNaissance.Month && DateTime.Now.Day < donneur.DateNaissance.Day) age--;
             return age < 0 ? 0 : age;
         }
 
-        public async Task UpdateEligibilityAsync(Donneur donneur)
+        public async Task<bool> CheckLastDonationDateAsync(Donneur donneur, int minimumdays) 
+        {
+            bool result = false;
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            if (donneur.DateDernierDon.HasValue) 
+            {
+                var daysSinceLastDonation = (DateTime.Now - donneur.DateDernierDon.Value.ToDateTime(TimeOnly.MinValue)).TotalDays;
+                if (daysSinceLastDonation < minimumdays)
+                {
+                    donneur.ProchaineDateEligible = donneur.DateDernierDon.Value.AddDays(minimumdays);
+                    await UpdateDonneurAsync(donneur);
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+        public async Task<bool> CheckRecentInfectionDateAsync(Donneur donneur, int minimumdays) 
+        {
+            bool result = false;
+            if (donneur.Dossier.DateInfectionRecente.HasValue) 
+            {
+                var daysSinceLastInfection = (DateTime.Now - donneur.Dossier.DateInfectionRecente.Value.ToDateTime(TimeOnly.MinValue)).TotalDays;
+                if (daysSinceLastInfection < minimumdays)
+                {
+                    donneur.Dossier.InfectionRecente = true;
+                    donneur.ProchaineDateEligible = donneur.Dossier.DateInfectionRecente.Value.AddDays(minimumdays);
+                    result = true;
+                }
+                else
+                {
+                    donneur.Dossier.InfectionRecente = false;
+                    result = false;
+                }
+
+                await UpdateDonneurAsync(donneur);
+            }
+            return result;
+        }
+
+        public async Task UpdateDonneurAsync(Donneur donneur)
         {
             await _donneurService.UpdateAsync(donneur);
         }
@@ -64,11 +159,11 @@ namespace Infrastructure.Implementations.Services
         {
             if (donneur.Dossier != null)
             {
-                var isEligible = IsEligible(donneur);
+                var isEligible = await IsEligibleAsync(donneur);
                 if (donneur.EstEligible != isEligible)
                 {
                     donneur.EstEligible = isEligible;
-                    await UpdateEligibilityAsync(donneur);
+                    await UpdateDonneurAsync(donneur);
                 }
             }
         }
@@ -81,36 +176,10 @@ namespace Infrastructure.Implementations.Services
             }
         }
 
-        //Generated method to check eligibility for all donors
-        //public async Task<bool> CheckEligibilityAsync()
-        //{
-        //    var donneurs = await _donneurService.GetAllDonneursAsync();
-        //    bool isEligibilityStatusChanged = false;
-        //    foreach (var donneur in donneurs)
-        //    {
-        //        var isEligible = IsEligible(donneur);
-        //        if (donneur.EstEligible != isEligible)
-        //        {
-        //            donneur.EstEligible = isEligible;
-        //            await _donneurService.UpdateAsync(donneur);
-        //            isEligibilityStatusChanged = true;
-        //        }
-        //    }
-        //    return isEligibilityStatusChanged;
-        //}
-
-        //public async Task<bool> CheckEligibilityAsync(Donneur donneur)
-        //{
-        //    bool isEligibilityStatusChanged = false;
-        //    var isEligible = IsEligible(donneur);
-        //    if (donneur.EstEligible != isEligible)
-        //    {
-        //        donneur.EstEligible = isEligible;
-        //        await _donneurService.UpdateAsync(donneur);
-        //        isEligibilityStatusChanged = true;
-        //    }
-
-        //    return isEligibilityStatusChanged;
-        //}
+        public async Task UpdateRaisonEligibilityAsync(Donneur donneur, string? raison)
+        {
+            donneur.Raison = raison;
+            await UpdateDonneurAsync(donneur);
+        }
     }
 }

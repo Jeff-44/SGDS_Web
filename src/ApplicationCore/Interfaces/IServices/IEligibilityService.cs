@@ -9,10 +9,9 @@ namespace ApplicationCore.Interfaces.IServices
 {
     public interface IEligibilityService
     {
-        bool IsEligible(Donneur donneur);
-        bool IsEligible(Dossier dossierDonneur);
+        Task<bool> IsEligibleAsync(Donneur donneur);
         Task CheckEligibilityAsync(IEnumerable<Donneur> donneurs);
         Task CheckEligibilityAsync(Donneur donneur);
-        Task UpdateEligibilityAsync(Donneur donneur); //?? Update the eligibility status of a specific donor
+        Task UpdateDonneurAsync(Donneur donneur); //?? Update the eligibility status of a specific donor
     }
 }

@@ -1,6 +1,6 @@
 ﻿using ApplicationCore.Entities.Collectes;
 using AutoMapper;
-using SGDS_Web.ViewModels;
+using SGDS_Web.ViewModels.Collectes;
 
 namespace SGDS_Web.Mappings
 {
@@ -8,7 +8,7 @@ namespace SGDS_Web.Mappings
     {
         public CollecteVMProfile()
         {
-            CreateMap<Collecte, CollecteVM>().ReverseMap();
+            CreateMap<CollecteVM, Collecte>().ReverseMap();
         }
     }
 }

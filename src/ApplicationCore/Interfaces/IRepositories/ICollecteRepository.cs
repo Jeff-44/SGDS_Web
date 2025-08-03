@@ -9,5 +9,7 @@ namespace ApplicationCore.Interfaces.IRepositories
 {
     public interface ICollecteRepository : IGenericRepository<Collecte>
     {
+        Task<Collecte?> GetCollecteByIdAsync(long id);
+        Task<IEnumerable<Collecte>?> GetAllCollectesAsync();
     }
 }

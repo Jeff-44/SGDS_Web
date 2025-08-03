@@ -53,12 +53,12 @@ namespace Infrastructure.Implementations.Services
 
         public async Task<T?> GetByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            return await _repository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"{nameof(T)} {id} not found");
         }
 
         public async Task<T?> GetByIdAsync(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            return await _repository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"{nameof(T)} {id} not found");
         }
 
         public async Task UpdateAsync(T entity)
