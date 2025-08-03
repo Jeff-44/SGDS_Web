@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SGDS_Web.ViewModels.DonVM>
+﻿@using SGDS_Web.ViewModels.Dons
+@model IEnumerable<DonVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -31,7 +32,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Donneur.CIN)
+                @Html.DisplayFor(modelItem => item.Donneur.NIF)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Collecte.Id)

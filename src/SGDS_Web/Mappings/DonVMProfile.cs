@@ -1,7 +1,7 @@
 ﻿using ApplicationCore.Entities.Collectes;
 using ApplicationCore.Entities.Location;
 using AutoMapper;
-using SGDS_Web.ViewModels;
+using SGDS_Web.ViewModels.Dons;
 
 namespace SGDS_Web.Mappings
 {
@@ -9,7 +9,7 @@ namespace SGDS_Web.Mappings
     {
         public DonVMProfile()
         {
-            CreateMap<Don, DonVM>().ReverseMap();
+            CreateMap<DonVM, Don>().ReverseMap();
         }
     }
 }

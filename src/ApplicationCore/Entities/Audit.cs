@@ -12,10 +12,10 @@ namespace ApplicationCore.Entities
         [Display(Name = "Crée Par")]
         public string? CreePar { get; set; }
         [Display(Name = "Crée Le")]
-        public DateTime? CreeLe { get; set; }
+        public DateTime? CreeLe { get; set; } = null;
         [Display(Name = "Modifié Par")]
         public string? ModifiePar { get; set; }
         [Display(Name = "Modifié Le")]
-        public DateTime? ModifieLe { get; set; }
+        public DateTime? ModifieLe { get; set; } = null;
     }
 }

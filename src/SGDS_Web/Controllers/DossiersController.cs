@@ -33,9 +33,19 @@ namespace SGDS_Web.Controllers
         }
 
         // GET: DossiersController/Details/5
-        public async Task<IActionResult> Details(long id)
+        public async Task<IActionResult> Details(long idDossier, long donneurId)
         {
-            var dossier = await _dossierService.GetDossierByIdAsync(id);
+            var dossier = new Dossier();
+            if (donneurId > 0 && idDossier == 0)
+            {
+                var donneur = await _donneurService.GetDonneurByIdAsync(donneurId);
+                dossier = donneur.Dossier;
+            }
+            else 
+            {
+                dossier = await _dossierService.GetDossierByIdAsync(idDossier);
+            }
+
             var dossiervm = _mapper.Map<DossierVM>(dossier);
             return View(dossiervm);
         }

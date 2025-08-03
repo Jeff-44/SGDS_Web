@@ -33,6 +33,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("CentreId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("CreeLe")
                         .HasColumnType("timestamp with time zone");
 
@@ -45,6 +48,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<string>("Libelle")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("ModifieLe")
                         .HasColumnType("timestamp with time zone");
 
@@ -55,7 +61,10 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CentreId");
 
-                    b.ToTable("Collectes");
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Collectes", (string)null);
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Collectes.Don", b =>
@@ -96,7 +105,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("DonneurId");
 
-                    b.ToTable("Dons");
+                    b.ToTable("Dons", (string)null);
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Collectes.Donneur", b =>
@@ -119,6 +128,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("CreePar")
                         .HasColumnType("text");
+
+                    b.Property<DateOnly?>("DateDernierDon")
+                        .HasColumnType("date");
 
                     b.Property<DateOnly>("DateNaissance")
                         .HasColumnType("date");
@@ -163,6 +175,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateOnly?>("ProchaineDateEligible")
+                        .HasColumnType("date");
+
                     b.Property<string>("Raison")
                         .HasColumnType("text");
 
@@ -181,7 +196,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("PersonneDeContactId");
 
-                    b.ToTable("Donneurs");
+                    b.ToTable("Donneurs", (string)null);
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Collectes.Dossier", b =>
@@ -236,7 +251,7 @@ namespace Infrastructure.Migrations
                     b.HasIndex("DonneurId")
                         .IsUnique();
 
-                    b.ToTable("Dossiers");
+                    b.ToTable("Dossiers", (string)null);
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Location.Centre", b =>
@@ -247,9 +262,8 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("CommuneId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("CreeLe")
                         .HasColumnType("timestamp with time zone");
@@ -271,12 +285,11 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("VilleId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Centres");
+                    b.HasIndex("CommuneId");
+
+                    b.ToTable("Centres", (string)null);
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.PersonneDeContact", b =>
@@ -340,7 +353,131 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PersonneDeContact");
+                    b.ToTable("PersonneDeContact", (string)null);
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Reference.Arrondissement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreeLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreePar")
+                        .HasColumnType("text");
+
+                    b.Property<short?>("DepartementId")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime?>("ModifieLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiePar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartementId");
+
+                    b.ToTable("Arrondissements", (string)null);
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Reference.Commune", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArrondissementId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CreeLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreePar")
+                        .HasColumnType("text");
+
+                    b.Property<short>("DepartementId")
+                        .HasColumnType("smallint");
+
+                    b.Property<float>("Latitude")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Longitude")
+                        .HasColumnType("real");
+
+                    b.Property<int>("MapId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ModifieLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiePar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("Population")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Superficie")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Zoom")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArrondissementId");
+
+                    b.ToTable("Communes", (string)null);
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Reference.Departement", b =>
+                {
+                    b.Property<short>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<short>("Id"));
+
+                    b.Property<DateTime?>("CreeLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreePar")
+                        .HasColumnType("text");
+
+                    b.Property<float>("Latitude")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Longitude")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("ModifieLe")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiePar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departements", (string)null);
                 });
 
             modelBuilder.Entity("Infrastructure.Identity.ApplicationUser", b =>
@@ -604,6 +741,38 @@ namespace Infrastructure.Migrations
                     b.Navigation("Donneur");
                 });
 
+            modelBuilder.Entity("ApplicationCore.Entities.Location.Centre", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Reference.Commune", "Commune")
+                        .WithMany()
+                        .HasForeignKey("CommuneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Commune");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Reference.Arrondissement", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Reference.Departement", "Departement")
+                        .WithMany("Arrondissements")
+                        .HasForeignKey("DepartementId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Departement");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Reference.Commune", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Reference.Arrondissement", "Arrondissement")
+                        .WithMany("Communes")
+                        .HasForeignKey("ArrondissementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Arrondissement");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -658,6 +827,16 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("ApplicationCore.Entities.Collectes.Donneur", b =>
                 {
                     b.Navigation("Dossier");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Reference.Arrondissement", b =>
+                {
+                    b.Navigation("Communes");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Reference.Departement", b =>
+                {
+                    b.Navigation("Arrondissements");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,4 @@
-﻿@model SGDS_Web.ViewModels.CentreVM
+﻿@model SGDS_Web.ViewModels.Centres.CentreVM
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,12 +11,12 @@
     <h4>Centre</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+       @*  <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Code)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Code)
-        </dd>
+        </dd> *@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NomCentre)
         </dt>
@@ -30,10 +30,10 @@
             @Html.DisplayFor(model => model.TypeCentre)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VilleId)
+            @Html.DisplayNameFor(model => model.CommuneId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VilleId)
+            @Html.DisplayFor(model => model.CommuneId)
         </dd>
     </dl>
     

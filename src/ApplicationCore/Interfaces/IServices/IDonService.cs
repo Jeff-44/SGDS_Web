@@ -9,5 +9,7 @@ namespace ApplicationCore.Interfaces.IServices
 {
     public interface IDonService : IGenericService<Don>
     {
+        Task<IEnumerable<Don>?> GetAllDonsAsync();
+        Task<Don?> GetDonByIdAsync(long id);
     }
 }

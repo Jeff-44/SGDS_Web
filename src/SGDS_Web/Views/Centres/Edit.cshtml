@@ -1,4 +1,5 @@
-﻿@model SGDS_Web.ViewModels.CentreVM
+﻿@using System.Text.Json
+@model SGDS_Web.ViewModels.Centres.CreerModifierCentre
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,11 +14,11 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="Code" class="control-label"></label>
                 <input asp-for="Code" class="form-control" />
                 <span asp-validation-for="Code" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="NomCentre" class="control-label"></label>
                 <input asp-for="NomCentre" class="form-control" />
@@ -29,9 +30,25 @@
                 <span asp-validation-for="TypeCentre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VilleId" class="control-label"></label>
-                <input asp-for="VilleId" class="form-control" />
-                <span asp-validation-for="VilleId" class="text-danger"></span>
+                <label asp-for="DepartementId" class="control-label"></label>
+                <select asp-for="DepartementId" id="departementSelect" class="form-control" asp-items="@Model.Departements">
+                    <option value="">--Selectionner un département--</option>
+                </select>
+                <span asp-validation-for="DepartementId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArrondissementId" class="control-label"></label>
+                <select asp-for="ArrondissementId" id="arrondissementSelect" class="form-control">
+                    <option value="">--Selectionner un arrondissement--</option>
+                </select>
+                <span asp-validation-for="ArrondissementId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CommuneId" class="control-label"></label>
+                <select asp-for="CommuneId" id="communeSelect" class="form-control">
+                    <option value="">--Selectionner une commune--</option>
+                </select>
+                <span asp-validation-for="CommuneId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -43,7 +60,51 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+<script>
+    const allArrondissements = @Html.Raw(JsonSerializer.Serialize(Model.Arrondissements));
+    const allCommunes        = @Html.Raw(JsonSerializer.Serialize(Model.Communes));
+</script>
 @section Scripts {
+    <script>
+        $(function(){
+          // When departement changes → filter arrondissements
+          $('#departementSelect').on('change', function(){
+            const depId = +this.value; // unary + ensures we get a number
+            $('#arrondissementSelect')
+              .empty()
+              .append('<option value="">--Sélectionner un arrondissement--</option>');
+            $('#communeSelect')
+              .empty()
+              .append('<option value="">--Sélectionner une commune--</option>');
+
+            if (!depId) return;
+
+            allArrondissements
+              .filter(a => a.DepartementId === depId)
+              .forEach(a => {
+                // backtick template literal → inject values
+                $('#arrondissementSelect')
+                  .append(`<option value="${a.Id}">${a.Nom}</option>`);
+              });
+          });
+
+          // When arrondissement changes → filter communes
+          $('#arrondissementSelect').on('change', function(){
+            const arrId = +this.value;
+            $('#communeSelect')
+              .empty()
+              .append('<option value="">--Sélectionner une commune--</option>');
+
+            if (!arrId) return;
+
+            allCommunes
+              .filter(c => c.ArrondissementId === arrId)
+              .forEach(c => {
+                $('#communeSelect')
+                  .append(`<option value="${c.Id}">${c.Nom}</option>`);
+              });
+          });
+        });
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

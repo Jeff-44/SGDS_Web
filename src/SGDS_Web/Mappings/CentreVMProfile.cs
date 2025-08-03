@@ -1,6 +1,6 @@
 ﻿using ApplicationCore.Entities.Location;
 using AutoMapper;
-using SGDS_Web.ViewModels;
+using SGDS_Web.ViewModels.Centres;
 
 namespace SGDS_Web.Mappings
 {
@@ -8,7 +8,7 @@ namespace SGDS_Web.Mappings
     {
         public CentreVMProfile()
         {
-            CreateMap<Centre, CentreVM>().ReverseMap();
+            CreateMap<CentreVM, Centre>().ReverseMap();
         }
     }
 }

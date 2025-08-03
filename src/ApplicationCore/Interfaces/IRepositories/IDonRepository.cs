@@ -10,5 +10,7 @@ namespace ApplicationCore.Interfaces.IRepositories
 {
     public interface IDonRepository : IGenericRepository<Don>
     {
+        Task<IEnumerable<Don>?> GetAllDonsAsync();
+        Task<Don?> GetDonByIdAsync(long id);
     }
 }

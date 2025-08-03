@@ -8,7 +8,7 @@ namespace SGDS_Web.Mappings
     {
         public DonneurVMMappingProfile()
         {
-            CreateMap<Donneur, DonneurVM>().ReverseMap();
+            CreateMap<DonneurVM, Donneur>().ReverseMap();
         }
     }
 }

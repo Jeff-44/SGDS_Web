@@ -1,4 +1,5 @@
-﻿@model SGDS_Web.ViewModels.DonVM
+﻿@using SGDS_Web.ViewModels.Dons
+@model CreerModifierDon
 
 @{
     ViewData["Title"] = "Create";
@@ -14,11 +15,15 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="DonneurId" class="control-label"></label>
-                <select asp-for="DonneurId" class ="form-control" asp-items="ViewBag.DonneurId"></select>
+                <select asp-for="DonneurId" class ="form-control js-select2" asp-items="Model.Donneurs">
+                    <option>--Selectionner le NIF du donneur--</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="CollecteId" class="control-label"></label>
-                <select asp-for="CollecteId" class ="form-control" asp-items="ViewBag.CollecteId"></select>
+                <select asp-for="CollecteId" class ="form-control" asp-items="@Model.Collectes">
+                    <option>--Selectionner une collecte--</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Volume" class="control-label"></label>

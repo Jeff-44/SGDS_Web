@@ -11,9 +11,20 @@ namespace Infrastructure.Implementations.Services
 {
     public class DonService : GenericService<Don>, IDonService
     {
+        private readonly IDonRepository _repository;
         public DonService(IDonRepository repository) : base(repository)
         {
+            _repository = repository;
+        }
 
+        public async Task<IEnumerable<Don>?> GetAllDonsAsync()
+        {
+            return await _repository.GetAllDonsAsync();
+        }
+
+        public async Task<Don?> GetDonByIdAsync(long id)
+        {
+            return await _repository.GetDonByIdAsync(id);
         }
     }
 }

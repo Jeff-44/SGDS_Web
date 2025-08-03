@@ -7,6 +7,10 @@
 
 <h1>Details</h1>
 <a asp-action="Create" asp-controller="Dossiers" asp-route-donneurId="@Model.Id">Ajouter un dossier</a>
+<br />
+<a asp-action="Details" asp-controller="Dossiers" asp-route-donneurId="@Model.Id">Dossier</a>
+<br />
+<a asp-action="Create" asp-controller="Dons" asp-route-donneurId="@Model.Id">Ajouter un don</a>
 <div>
     <h4>Donneur</h4>
     

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SGDS_Web.ViewModels.CentreVM>
+﻿@model IEnumerable<SGDS_Web.ViewModels.Centres.CentreVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,9 +12,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.Code)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.NomCentre)
             </th>
@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.TypeCentre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VilleId)
+                @Html.DisplayNameFor(model => model.CommuneId)
             </th>
             <th></th>
         </tr>
@@ -30,9 +30,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @* <td>
                 @Html.DisplayFor(modelItem => item.Code)
-            </td>
+            </td> *@
             <td>
                 @Html.DisplayFor(modelItem => item.NomCentre)
             </td>
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.TypeCentre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VilleId)
+                @Html.DisplayFor(modelItem => item.CommuneId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

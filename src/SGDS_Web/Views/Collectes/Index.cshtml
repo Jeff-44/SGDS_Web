@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SGDS_Web.ViewModels.CollecteVM>
+﻿@using SGDS_Web.ViewModels.Collectes
+@model IEnumerable<CollecteVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,10 +14,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.DateCollecte)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateCollecte)
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Libelle)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Centre)
@@ -28,10 +32,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.DateCollecte)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateCollecte)
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Libelle)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Centre!.NomCentre)
