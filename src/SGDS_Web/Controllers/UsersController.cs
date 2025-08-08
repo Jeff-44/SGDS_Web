@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Entities;
+﻿using ApplicationCore.Entities.Utilisateurs;
 using ApplicationCore.Interfaces.IServices;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;

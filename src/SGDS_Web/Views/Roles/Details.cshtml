@@ -26,7 +26,7 @@
             <!-- Section Membres -->
             <h4 class="mb-3">Membres</h4>
             <hr />
-            <form asp-action="RemoveUsersFromRole" asp-controller="Users" method="post">
+            <form asp-action="RemoveUsersFromRole" method="post">
                 <input type="hidden" name="roleName" value="@Model.Name" />
                 <div class="table-responsive mb-4">
                     <table class="table table-hover align-middle">
@@ -61,7 +61,7 @@
             <!-- Section Non Membres -->
             <h4 class="mb-3">Non Membres</h4>
             <hr />
-            <form asp-action="AssignRoleToUsers" asp-controller="Users" method="post">
+            <form asp-action="AssignRoleToUsers" method="post">
                 <input type="hidden" name="roleName" value="@Model.Name" />
                 <div class="table-responsive mb-4">
                     <table class="table table-hover align-middle">
@@ -107,55 +107,8 @@
     </div>
 </div>
 
-@section Styles {
-    <style>
-        /* Carte personnalisée */
-        .custom-card {
-            background: #ffffff;
-            border: none;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-
-        .custom-card-header {
-            padding: 1.5rem;
-            color: #fff;
-        }
-
-            .custom-card-header h2 {
-                font-size: 2rem;
-                font-weight: 700;
-                margin: 0;
-            }
-
-        .custom-card-footer {
-            background-color: #f8f9fa;
-            padding: 1rem 1.5rem;
-            border-top: none;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
-        /* Boutons arrondis uniformes */
-        .rounded-pill {
-            border-radius: 50px !important;
-        }
-        /* Breadcrumb personnalisé */
-        .breadcrumb {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            padding: 0.75rem 1rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-            .breadcrumb a {
-                color: #007bff;
-                text-decoration: none;
-                transition: color 0.3s ease;
-            }
-
-                .breadcrumb a:hover {
-                    color: #6610f2;
-                }
-    </style>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
-

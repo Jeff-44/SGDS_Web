@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Entities;
+﻿using ApplicationCore.Entities.Utilisateurs;
 using AutoMapper;
 using Infrastructure.Identity;
 using System;

@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Entities;
+﻿using ApplicationCore.Entities.Utilisateurs;
 using ApplicationCore.Interfaces.IServices;
 using AutoMapper;
 using Infrastructure.Identity;
@@ -58,9 +58,11 @@ namespace Infrastructure.Implementations.Services
 
         public async Task<IEnumerable<DomainUser>> GetUsersAsync(Expression<Func<DomainUser, bool>> predicate)
         {
-            //return await _userManager.Users.Where(predicate)
-            //    .ToListAsync();
-            throw new NotImplementedException();
+            var appUserPredicate = _mapper.Map<Expression<Func<ApplicationUser, bool>>>(predicate);
+            var appUsers = await _userManager.Users
+                .Where(appUserPredicate)
+                .ToListAsync();
+            return _mapper.Map<List<DomainUser>>(appUsers); 
         }
         
         public async Task UpdateUserAsync(DomainUser user)

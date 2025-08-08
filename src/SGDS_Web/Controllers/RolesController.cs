@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Entities;
+﻿using ApplicationCore.Entities.Utilisateurs;
 using ApplicationCore.Interfaces.IServices;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -32,25 +32,26 @@ namespace SGDS_Web.Controllers
         // GET: RolesController/Details/5
         public async Task<IActionResult> Details(string id)
         {
+            var members = Enumerable.Empty<DomainUser>();
+            var nonMembers = Enumerable.Empty<DomainUser>();
+            var vm = new RoleVM();
+
             try 
             {
                 var role = await _roleService.GetRoleByIdAsync(id);
-                var members = await _userService.GetUsersAsync
-                                (
-                                    u => _roleService.IsInRoleAsync(u, role.Name).GetAwaiter().GetResult()
-                                );
-                var nonMembers = await _userService.GetUsersAsync
-                                (
-                                    u => !_roleService.IsInRoleAsync(u, role.Name).GetAwaiter().GetResult()
-                                );
-                var roleVM = _mapper.Map<RoleVM>(role);
-                roleVM.Members = _mapper.Map<List<UserVM>>(members);
-                roleVM.NonMembers = _mapper.Map<List<UserVM>>(nonMembers);
+                var users = await _userService.GetAllUsersAsync();
+                members = users.Where(u => _roleService.IsInRoleAsync(u, role.Name).GetAwaiter().GetResult());
+                nonMembers = users.Where(u => !_roleService.IsInRoleAsync(u, role.Name).GetAwaiter().GetResult());
+                vm = _mapper.Map<RoleVM>(role);
+                vm.Members = _mapper.Map<List<UserVM>>(members);
+                vm.NonMembers = _mapper.Map<List<UserVM>>(nonMembers);
 
-                return View(roleVM);
+                return View(vm);
             } catch (Exception ex)
             {
-                return View();
+                vm.Members = _mapper.Map<List<UserVM>>(members);
+                vm.NonMembers = _mapper.Map<List<UserVM>>(nonMembers);
+                return View(vm);
             }
             
         }
@@ -81,7 +82,7 @@ namespace SGDS_Web.Controllers
         public async Task<IActionResult> Edit(string id)
         {
             var role = await _roleService.GetRoleByIdAsync(id);
-            var vm = _mapper.Map<RoleVM>(role);
+            var vm = _mapper.Map<CreerModifierRole>(role);
             return View(vm);
         }
 
@@ -94,10 +95,8 @@ namespace SGDS_Web.Controllers
             {
                 if(ModelState.IsValid)
                 {
-                    // Map the view model to the domain model
                     var role = _mapper.Map<DomainRole>(vm);
-                    // Update the role
-                    await _roleService.UpdateRoleAsync(role.Name);
+                    await _roleService.UpdateRoleAsync(role);
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -109,28 +108,33 @@ namespace SGDS_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AssignRoleToUsers(IEnumerable<string> userIds, string role) 
+        public async Task<IActionResult> AssignRoleToUsers(IEnumerable<string> userIds, string roleName) 
         {
             try 
             {
-                var users = await _userService.GetUsersAsync(u => userIds.Contains(u.Id));
-                await _roleService.AssignRoleToUsersAsync(users, role);
+                var role = await _roleService.GetRoleByNameAsync(roleName);
+                await _roleService.AssignRoleToUsersAsync(userIds, role.Name);
+                return RedirectToAction(nameof(Details), new { id = role.Id });
             } catch
-            { }
-            return View();
+            { 
+                return RedirectToAction(nameof(Details));
+            }
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveUsersFromRole(IEnumerable<string> userIds, string role) 
+        public async Task<IActionResult> RemoveUsersFromRole(IEnumerable<string> userIds, string roleName) 
         {
             try 
             {
-                var users = await _userService.GetUsersAsync(u => userIds.Contains(u.Id));
-                await _roleService.RemoveUsersFromRoleAsync(users, role);
+                var role = await _roleService.GetRoleByNameAsync(roleName);
+                await _roleService.RemoveUsersFromRoleAsync(userIds, role.Name);
+                return RedirectToAction(nameof(Details), new { id = role.Id });
             } catch
-            { }
-            return View();
+            {
+                return RedirectToAction(nameof(Details));
+            }
+            
         }
 
         // GET: RolesController/Delete/5

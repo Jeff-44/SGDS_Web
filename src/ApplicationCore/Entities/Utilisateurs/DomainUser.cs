@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Entities
+namespace ApplicationCore.Entities.Utilisateurs
 {
     public class DomainUser
     {

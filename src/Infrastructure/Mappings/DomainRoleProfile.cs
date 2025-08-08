@@ -1,11 +1,6 @@
-﻿using ApplicationCore.Entities;
+﻿using ApplicationCore.Entities.Utilisateurs;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Mappings
 {
@@ -13,7 +8,10 @@ namespace Infrastructure.Mappings
     {
         public DomainRoleProfile()
         {
-            CreateMap<DomainRole, IdentityRole>().ReverseMap();
+            CreateMap<DomainRole, IdentityRole>()
+                .ForAllMembers(options => options.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<IdentityRole, DomainRole>();
         }
     }
 }
