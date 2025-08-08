@@ -65,6 +65,7 @@ namespace SGDS_Web.Controllers
                 if (ModelState.IsValid) 
                 {
                     var don = _mapper.Map<Don>(vm);
+                    don.CreeLe = DateTime.UtcNow;
                     await _donService.AddAsync(don);//s'assurer que le donneur est eligible avant d'ajouter un don pour ce donneur
                     return RedirectToAction(nameof(Index));
                 }
@@ -103,6 +104,7 @@ namespace SGDS_Web.Controllers
                 {
                     var don = await _donService.GetByIdAsync(vm.Id);
                     don = _mapper.Map(vm, don);
+                    don.ModifieLe = DateTime.UtcNow;
                     await _donService.UpdateAsync(don);
                     return RedirectToAction(nameof(Details), new { vm.Id });
                 }

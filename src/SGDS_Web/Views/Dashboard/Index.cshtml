@@ -1,0 +1,199 @@
+﻿@model SGDS_Web.ViewModels.Statistics.DashboardVM
+@{
+    ViewData["Title"] = "Tableau de bord";
+}
+
+<h2 class="mb-4">Tableau de bord</h2>
+
+<!-- 🔢 Statistiques globales -->
+<div class="row mb-4">
+    <!-- Donneurs actifs -->
+    <div class="col-md-3 mb-3">
+        <div class="card-stat">
+            <div class="stat-label">
+                <span class="stat-title">Donneurs actifs</span>
+                <i class="fas fa-users stat-icon"></i>
+            </div>
+            <p class="stat-value">@Model.GlobalStatistics.NombreDonneursActifs</p>
+        </div>
+    </div>
+
+    <!-- Dons ce mois -->
+    <div class="col-md-3 mb-3">
+        <div class="card-stat">
+            <div class="stat-label">
+                <span class="stat-title">Dons ce mois</span>
+                <i class="fas fa-tint stat-icon blood"></i>
+            </div>
+            <p class="stat-value">@Model.GlobalStatistics.DonsCeMois</p>
+        </div>
+    </div>
+
+    <!-- Nouveaux donneurs -->
+    <div class="col-md-3 mb-3">
+        <div class="card-stat">
+            <div class="stat-label">
+                <span class="stat-title">Nouveaux donneurs</span>
+                <i class="fas fa-user-plus stat-icon"></i>
+            </div>
+            <p class="stat-value">@Model.GlobalStatistics.NouveauxDonneursCeMois</p>
+        </div>
+    </div>
+
+    <!-- RDV cette semaine -->
+    <div class="col-md-3 mb-3">
+        <div class="card-stat">
+            <div class="stat-label">
+                <span class="stat-title">RDV cette semaine</span>
+                <i class="fas fa-calendar-check stat-icon"></i>
+            </div>
+            <p class="stat-value">@Model.GlobalStatistics.RendezVousCetteSemaine</p>
+        </div>
+    </div>
+</div>
+
+<!--  Graphique mensuel -->
+<div class="row">
+    <!-- 📈 Graphique mensuel -->
+    <div class="col-lg-8 col-md-12 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <i class="fas fa-chart-line me-2"></i>Évolution mensuelle (12 derniers mois)
+                </h4>
+                <div style="position: relative; height: 350px;">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🥧 Graphique doughnut -->
+    <div class="col-lg-4 col-md-12 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <i class="fas fa-chart-pie me-2"></i>Répartition globale
+                </h4>
+                <div style="position: relative; height: 350px;">
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@{
+    var totalDons = Model.MonthlyDistributions.Sum(m => m.TotalDons);
+    var totalNouveaux = Model.MonthlyDistributions.Sum(m => m.NouveauxDonneurs);
+    var totalRdv = Model.MonthlyDistributions.Sum(m => m.RendezVous);
+    var totalCollectes = Model.MonthlyDistributions.Sum(m => m.Collectes);
+}
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const moisLabels = @Html.Raw(Json.Serialize(Model.MonthlyDistributions.Select(m => m.Mois)));
+        const donsData = @Html.Raw(Json.Serialize(Model.MonthlyDistributions.Select(m => m.TotalDons)));
+        const nouveauxData = @Html.Raw(Json.Serialize(Model.MonthlyDistributions.Select(m => m.NouveauxDonneurs)));
+        const rdvData = @Html.Raw(Json.Serialize(Model.MonthlyDistributions.Select(m => m.RendezVous)));
+        const collectesData = @Html.Raw(Json.Serialize(Model.MonthlyDistributions.Select(m => m.Collectes)));
+
+        const ctx = document.getElementById('monthlyChart').getContext('2d');
+        const monthlyChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: moisLabels,
+                datasets: [
+                    {
+                        label: 'Dons',
+                        data: donsData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Nouveaux donneurs',
+                        data: nouveauxData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Rendez-vous',
+                        data: rdvData,
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Collectes',
+                        data: collectesData,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: false },
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { precision: 0 }
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+        new Chart(doughnutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Dons', 'Nouveaux donneurs', 'Rendez-vous', 'Collectes'],
+                datasets: [{
+                    data: [@totalDons, @totalNouveaux, @totalRdv, @totalCollectes],
+                    backgroundColor: [
+                        '#d32f2f', // rouge sang
+                        '#ff7043', // orange clair
+                        '#1976d2', // bleu
+                        '#26a69a'  // turquoise
+                    ],
+                    borderColor: '#ffffff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const label = context.label || '';
+                                const value = context.parsed;
+                                const total = context.chart._metasets[0].total;
+                                const percentage = ((value / total) * 100).toFixed(1) + '%';
+                                return `${label}: ${value} (${percentage})`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+}
+

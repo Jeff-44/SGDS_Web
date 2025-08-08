@@ -1,0 +1,114 @@
+﻿@using SGDS_Web.ViewModels.Users
+@model RoleVM
+
+@{
+    ViewData["Title"] = "Détails du Role";
+}
+
+<div class="container py-5">
+    <!-- Breadcrumb de navigation -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb bg-light p-2 rounded">
+            <li class="breadcrumb-item"><a href="/Admin/Dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/Role/Index">Roles</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Détails du Role</li>
+        </ol>
+    </nav>
+
+    <div class="card custom-card shadow-sm rounded">
+        <!-- En-tête de la carte -->
+        <div class="card-header custom-card-header text-center" style="background: linear-gradient(90deg, #007bff, #6610f2); border-radius: 0.5rem 0.5rem 0 0;">
+            <h2 class="text-white mb-0">Role: <span>@Model.Name</span></h2>
+        </div>
+
+        <!-- Corps de la carte -->
+        <div class="card-body p-4">
+            <!-- Section Membres -->
+            <h4 class="mb-3">Membres</h4>
+            <hr />
+            <form asp-action="RemoveUsersFromRole" method="post">
+                <input type="hidden" name="roleName" value="@Model.Name" />
+                <div class="table-responsive mb-4">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Email</th>
+                                <th>Nom complet</th>
+                                <th class="text-center">Sélection</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.Members)
+                            {
+                                <tr>
+                                    <td>@user.Email</td>
+                                    <td>@user.FirstName @user.LastName</td>
+                                    <td class="text-center">
+                                        <input type="checkbox" name="UserIds" value="@user.Id" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-end mb-4">
+                    <button type="submit" class="btn btn-danger rounded-pill">
+                        <i class="fas fa-user-minus me-1"></i> Remove Selected
+                    </button>
+                </div>
+            </form>
+
+            <!-- Section Non Membres -->
+            <h4 class="mb-3">Non Membres</h4>
+            <hr />
+            <form asp-action="AssignRoleToUsers" method="post">
+                <input type="hidden" name="roleName" value="@Model.Name" />
+                <div class="table-responsive mb-4">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Nom complet</th>
+                                <th class="text-center">Sélection</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.NonMembers)
+                            {
+                                <tr>
+                                    <td>@user.Email</td>
+                                    <td>@user.FirstName @user.LastName</td>
+                                    <td class="text-center">
+                                        <input type="checkbox" name="UserIds" value="@user.Id" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success rounded-pill">
+                        <i class="fas fa-user-plus me-1"></i> Assign Selected
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Pied de carte avec boutons d'action -->
+        <div class="card-footer text-end bg-light py-3">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary rounded-pill me-2" title="Modifier">
+                <i class="fas fa-edit me-1"></i> Modifier
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill" title="Retour aux Roles">
+                <i class="fas fa-arrow-left me-1"></i> Retour aux Roles
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
