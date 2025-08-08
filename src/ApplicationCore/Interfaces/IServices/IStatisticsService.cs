@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApplicationCore.Entities.Statistics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace ApplicationCore.Interfaces.IServices
 {
     public interface IStatisticsService
     {
-        Task GetGlobalStatisticsAsync();
-        
+        Task<GlobalStatistics> GetGlobalStatisticsAsync();
+        Task<IEnumerable<RepartitionMensuelle>> GetMonthlyStatisticsAsync();
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Entities.Utilisateurs
+namespace ApplicationCore.Entities.Users
 {
     public class DomainRole 
     {

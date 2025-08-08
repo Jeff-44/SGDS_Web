@@ -58,6 +58,7 @@ namespace SGDS_Web.Controllers
                 if (ModelState.IsValid) 
                 {
                     var donneur = _mapper.Map<Donneur>(vm);
+                    donneur.CreeLe = DateTime.UtcNow;
                     await _donneurService.AddDonneurAsync(donneur);
                     return RedirectToAction(nameof(Index));
                 }
@@ -87,7 +88,9 @@ namespace SGDS_Web.Controllers
                 if (ModelState.IsValid) 
                 {
                     var donneur = await _donneurService.GetDonneurByIdAsync(vm.Id);
-                    
+                    donneur.ModifieLe = DateTime.UtcNow;
+
+                    //mapping manuel
                     donneur.CIN = vm.CIN;
                     donneur.NIF = vm.NIF;
                     donneur.Nom = vm.Nom;

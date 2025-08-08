@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Entities
+namespace ApplicationCore.Entities.Statistics
 {
-    public class DashboardStats
+    public class GlobalStatistics
     {
         public int NombreDonneursActifs { get; set; }
         public int DonsCeMois { get; set; }

@@ -1,0 +1,47 @@
+﻿/* Carte personnalisée : Styles du details role */
+.custom-card {
+    background: #ffffff;
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.custom-card-header {
+    padding: 1.5rem;
+    color: #fff;
+}
+
+    .custom-card-header h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+.custom-card-footer {
+    background-color: #f8f9fa;
+    padding: 1rem 1.5rem;
+    border-top: none;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+/* Boutons arrondis uniformes */
+.rounded-pill {
+    border-radius: 50px !important;
+}
+/* Breadcrumb personnalisé */
+.breadcrumb {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+    .breadcrumb a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .breadcrumb a:hover {
+            color: #6610f2;
+        }

@@ -54,6 +54,7 @@ builder.Services.AddAutoMapper(cfg => {}, typeof(EditUserVMProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(UserVMProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(CreerModifierRoleProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(RoleVMProfile));
+builder.Services.AddAutoMapper(cfg => {}, typeof(DashboardVMProfile));
 
 //Infrastructure Mappings
 builder.Services.AddAutoMapper(cfg => {}, typeof(DomainUserProfile));
@@ -87,6 +88,7 @@ builder.Services.AddScoped<ICollecteService, CollecteService>();
 builder.Services.AddScoped<ICentreService, CentreService>();
 builder.Services.AddScoped<IDonService, DonService>();
 
+builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 
