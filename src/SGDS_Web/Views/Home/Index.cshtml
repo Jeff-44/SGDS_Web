@@ -1,78 +1,117 @@
 ﻿@{
     ViewData["Title"] = "Accueil";
-    Layout = "_LoginLayout"; // ou ton layout principal
+    Layout = "_HomeLayout";
 }
 
 <style>
-    /* ======== HERO ======== */
+    /* ===== HERO full-bleed ===== */
     .hero {
         position: relative;
-        padding: 6rem 1rem 4rem;
-        background: linear-gradient(135deg, rgba(220,53,69,.08), rgba(0,0,0,.03));
         overflow: hidden;
+        color: #fff;
+        min-height: clamp(460px, 58vh, 720px);
+        display: grid;
+        place-items: center;
     }
 
-        .hero:after {
-            content: "";
+        .hero .overlay {
             position: absolute;
-            inset: -20%;
-            background: radial-gradient(50% 50% at 50% 50%, rgba(220,53,69,.12) 0%, rgba(0,0,0,0) 60%);
-            transform: rotate(15deg);
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.55));
+            z-index: 2;
             pointer-events: none;
         }
 
-        .hero .lead {
-            max-width: 720px;
-            margin: 0 auto;
+        .hero .content {
+            position: relative;
+            z-index: 4;
+            text-align: center;
+            max-width: 960px;
+            padding: 1rem;
+            transform: translateY(-3%); /* remonte légèrement le bloc CTA pour éviter tout croisement */
         }
 
-    /* ======== CAROUSEL ======== */
-    .activity-caption {
-        background: rgba(0,0,0,.45);
-        border-radius: .5rem;
-        padding: .75rem 1rem;
-        backdrop-filter: blur(2px);
+        .hero h1 {
+            font-weight: 800;
+            letter-spacing: .2px;
+        }
+
+        .hero p.lead {
+            opacity: .95;
+        }
+
+        .hero .carousel,
+        .hero .carousel-inner,
+        .hero .carousel-item {
+            height: 100%;
+        }
+
+            .hero .carousel-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: saturate(110%) contrast(1.05);
+                transform: scale(1.02);
+            }
+
+        /* Captions du hero : ancrées bas-gauche, pas de recouvrement avec le CTA central */
+        .hero .carousel-caption {
+            position: absolute;
+            left: 1.25rem;
+            right: auto;
+            bottom: 1.25rem;
+            top: auto;
+            transform: none;
+            text-align: left;
+            max-width: 640px;
+            z-index: 4;
+            background: rgba(0,0,0,.45);
+            border-radius: .5rem;
+            padding: .75rem 1rem;
+            backdrop-filter: blur(2px);
+            margin: 0;
+        }
+
+    /* Boutons du hero — visibilité renforcée */
+    .btn-hero-secondary {
+        color: #fff;
+        border-color: #fff;
     }
 
-    .carousel-item img {
-        object-fit: cover;
-        height: 420px; /* ajuste la hauteur */
-        width: 100%;
+        .btn-hero-secondary:hover {
+            color: #fff;
+            background-color: rgba(255,255,255,.15);
+            border-color: #fff;
+            transform: translateY(-1px);
+        }
+
+    /* ===== Cards (hover-lift dispo via layout) ===== */
+    .pillars .card {
+        border-radius: 1rem;
     }
 
-    /* ======== PARTENAIRES MARQUEE ======== */
+    /* ===== PARTENAIRES (défilement) ===== */
     .partners {
-        background: #fff;
+        position: relative;
         padding: 2.5rem 0;
+        background: #fff;
+    }
+
+        .partners h3 {
+            font-weight: 700;
+        }
+
+    .partners-viewport {
         overflow: hidden;
         position: relative;
     }
-
-        .partners:before, .partners:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 60px;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .partners:before {
-            left: 0;
-            background: linear-gradient(90deg, #fff, transparent);
-        }
-
-        .partners:after {
-            right: 0;
-            background: linear-gradient(270deg, #fff, transparent);
-        }
 
     .partners-track {
         display: flex;
-        gap: 3rem;
-        animation: slideLogos 22s linear infinite;
+        gap: 3.5rem;
+        align-items: center;
         will-change: transform;
+        animation: partnersLoop 24s linear infinite;
     }
 
         .partners-track:hover {
@@ -80,10 +119,10 @@
         }
 
     .partners-logo {
-        height: 54px;
+        height: 56px;
         width: auto;
         filter: grayscale(100%);
-        opacity: .8;
+        opacity: .85;
         transition: filter .2s ease, opacity .2s ease, transform .2s ease;
     }
 
@@ -92,8 +131,7 @@
             opacity: 1;
             transform: translateY(-2px);
         }
-
-    @@keyframes slideLogos {
+    @@keyframes partnersLoop {
         0%
 
     {
@@ -103,65 +141,146 @@
     100% {
         transform: translateX(-50%);
     }
-    /* car on duplique la liste */
+
     }
 
-    /* ======== TEMOIGNAGES ======== */
+    /* ===== TÉMOIGNAGES ===== */
     .testimonials .card {
-        border: 0;
-        box-shadow: 0 10px 30px rgba(0,0,0,.06);
         border-radius: 1rem;
-        height: 100%;
     }
 
-    .quote-mark {
+    .quote {
+        color: #dc3545;
         font-size: 2.25rem;
         line-height: 1;
-        color: #dc3545;
+    }
+
+    /* ===== CAROUSEL MESSAGES (machine à écrire) ===== */
+    .messages {
+        background: linear-gradient(135deg, rgba(220,53,69,.06), rgba(0,0,0,.02));
+    }
+
+    .typewriter {
+        min-height: 3.2em;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        white-space: pre-wrap;
+        border-right: 2px solid rgba(0,0,0,.4);
+        animation: caret 1s step-end infinite;
+    }
+    @@keyframes caret {
+        50%
+
+    {
+        border-color: transparent;
+    }
+
+    }
+
+    /* ===== NOUVEL EFFET "APPEAR" (dans les deux sens) ===== */
+    .appear {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+        .appear.inview {
+            opacity: 1;
+            transform: none;
+            transition: opacity .45s ease, transform .45s ease;
+        }
+
+    /* Petites optimisations responsive */
+    @@media (max-width: 576px) {
+        .hero .carousel-caption
+
+    {
+        left: .75rem;
+        bottom: .75rem;
+        max-width: 92%;
+    }
+
+    .hero .content {
+        transform: translateY(-2%);
+    }
+
     }
 </style>
 
-<!-- ================= HERO ================= -->
-<section class="hero text-center">
-    <div class="container">
-        <h1 class="display-5 fw-bold mb-3 text-danger">Notre mission, notre impact</h1>
-        <p class="lead text-muted">
-            Nous mobilisons donneurs, centres de santé et communautés pour sauver des vies.
-            Transparence, efficacité et proximité guident chacune de nos actions.
-        </p>
-        <div class="d-flex gap-2 justify-content-center mt-4">
-            <a asp-controller="Don" asp-action="PrendreRendezVous" class="btn btn-danger btn-lg rounded-3">
-                Donner maintenant
-            </a>
-            <a asp-controller="Home" asp-action="About" class="btn btn-outline-secondary btn-lg rounded-3">
-                En savoir plus
-            </a>
+<!-- ============ HERO + CAROUSEL ACTIVITÉS RÉCENTES ============ -->
+<section class="hero">
+    <div id="heroActivitiesCarousel" class="carousel slide position-absolute w-100 h-100" data-bs-ride="carousel" aria-label="Activités récentes">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroActivitiesCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#heroActivitiesCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#heroActivitiesCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
+        <div class="carousel-inner">
+            <!-- Remplace par tes récentes activités -->
+            <div class="carousel-item active">
+                <img src="/images/activites/collecte-1.jpg" alt="Collecte mobile - Centre Ville">
+                <div class="carousel-caption">
+                    <h5 class="mb-1">Collecte mobile — Centre Ville</h5>
+                    <p class="mb-0">120 donneurs mobilisés ce week-end.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="/images/activites/sensibilisation-ecole.jpg" alt="Sensibilisation au don en milieu scolaire">
+                <div class="carousel-caption">
+                    <h5 class="mb-1">Sensibilisation — Lycée National</h5>
+                    <p class="mb-0">Ateliers & inscriptions de nouveaux donneurs.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="/images/activites/formation-staff.jpg" alt="Formation des partenaires">
+                <div class="carousel-caption">
+                    <h5 class="mb-1">Formation des partenaires</h5>
+                    <p class="mb-0">Renforcement de capacités pour un meilleur accueil.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroActivitiesCarousel" data-bs-slide="prev" aria-label="Précédent">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroActivitiesCarousel" data-bs-slide="next" aria-label="Suivant">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
 
-        <div class="row g-3 mt-5">
+    <div class="overlay"></div>
+
+    <!-- Bloc CTA (toujours visible, pas de recouvrement avec captions) -->
+    <div class="content container appear">
+        <h1 class="display-5 mb-3">Ensemble, assurons la disponibilité du sang <span class="text-danger">à temps</span></h1>
+        <p class="lead mb-4">Nous connectons donneurs, centres et communautés pour sauver des vies — transparence, efficacité, proximité.</p>
+        <div class="d-flex gap-2 justify-content-center">
+            <a asp-controller="Don" asp-action="PrendreRendezVous" class="btn btn-danger btn-lg rounded-3">Donner maintenant</a>
+            <a asp-controller="Home" asp-action="About" class="btn btn-outline-light btn-hero-secondary btn-lg rounded-3">En savoir plus</a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ PILLARS ============ -->
+<section class="pillars py-5">
+    <div class="container">
+        <div class="row g-4">
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card hover-lift h-100 appear">
                     <div class="card-body p-4">
                         <h5 class="fw-semibold mb-2">Notre mission</h5>
-                        <p class="text-muted mb-0">
-                            Garantir la disponibilité du sang à travers une plateforme fiable qui connecte les donneurs
-                            aux centres, simplifie la logistique et favorise la sensibilisation.
-                        </p>
+                        <p class="text-muted mb-0">Garantir l’accès rapide au sang via une plateforme fiable reliant donneurs et centres, et simplifiant la logistique.</p>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card hover-lift h-100 appear" style="transition-delay:.06s">
                     <div class="card-body p-4">
                         <h5 class="fw-semibold mb-2">Notre vision</h5>
-                        <p class="text-muted mb-0">
-                            Une communauté où chaque personne a accès au sang à temps, grâce à la solidarité, la data et l’innovation.
-                        </p>
+                        <p class="text-muted mb-0">Une communauté où chacun accède au sang à temps grâce à la solidarité, à la data et à l’innovation.</p>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card hover-lift h-100 appear" style="transition-delay:.12s">
                     <div class="card-body p-4">
                         <h5 class="fw-semibold mb-2">Nos valeurs</h5>
                         <ul class="text-muted mb-0 ps-3">
@@ -173,97 +292,85 @@
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 
-<!-- ================= CAROUSEL D'ACTIVITÉS ================= -->
-<section class="py-5">
+<!-- ============ CAROUSEL MESSAGES (machine à écrire) ============ -->
+<section class="messages py-5">
     <div class="container">
-        <div id="activitesCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#activitesCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#activitesCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#activitesCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
+        <div class="text-center mb-4 appear">
+            <h3 class="fw-semibold">Nos messages clés</h3>
+            <p class="text-muted mb-0">L’essentiel, en quelques secondes.</p>
+        </div>
 
+        <div id="messagesCarousel" class="carousel slide appear" data-bs-interval="6000" data-bs-ride="carousel">
             <div class="carousel-inner rounded-4 shadow">
-                <div class="carousel-item active">
-                    <img src="/images/activites/collecte-1.jpg" alt="Collecte mobile - Centre Ville">
-                    <div class="carousel-caption d-none d-md-block activity-caption">
-                        <h5>Collecte mobile — Centre Ville</h5>
-                        <p>Plus de 120 donneurs mobilisés ce week-end.</p>
-                    </div>
+                <div class="carousel-item active p-4">
+                    <div class="typewriter" data-text="Nous mobilisons la solidarité pour que chaque patient ait accès au sang, où qu’il soit et à temps."></div>
                 </div>
-                <div class="carousel-item">
-                    <img src="/images/activites/sensibilisation-ecole.jpg" alt="Séance de sensibilisation en milieu scolaire">
-                    <div class="carousel-caption d-none d-md-block activity-caption">
-                        <h5>Sensibilisation — Lycée National</h5>
-                        <p>Ateliers et inscriptions de nouveaux donneurs.</p>
-                    </div>
+                <div class="carousel-item p-4">
+                    <div class="typewriter" data-text="Notre plateforme simplifie la prise de rendez-vous et renforce la logistique avec les centres partenaires."></div>
                 </div>
-                <div class="carousel-item">
-                    <img src="/images/activites/formation-staff.jpg" alt="Formation des équipes partenaires">
-                    <div class="carousel-caption d-none d-md-block activity-caption">
-                        <h5>Formation des partenaires</h5>
-                        <p>Renforcement de capacités pour un meilleur accueil des donneurs.</p>
-                    </div>
+                <div class="carousel-item p-4">
+                    <div class="typewriter" data-text="Transparence, efficacité, proximité : nos engagements pour un impact durable dans la communauté."></div>
                 </div>
             </div>
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#activitesCarousel" data-bs-slide="prev" aria-label="Précédent">
+            <button class="carousel-control-prev" type="button" data-bs-target="#messagesCarousel" data-bs-slide="prev" aria-label="Précédent">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#activitesCarousel" data-bs-slide="next" aria-label="Suivant">
+            <button class="carousel-control-next" type="button" data-bs-target="#messagesCarousel" data-bs-slide="next" aria-label="Suivant">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
             </button>
-        </div>
-    </div>
-</section>
 
-<!-- ================= PARTENAIRES ================= -->
-<section class="partners">
-    <div class="container">
-        <h3 class="text-center mb-4">Ils nous font confiance</h3>
-
-        <!-- Piste doublée pour boucle parfaite -->
-        <div class="d-flex" style="gap:3rem; white-space:nowrap;">
-            <div class="partners-track">
-                <img class="partners-logo" src="/images/partners/partner1.png" alt="Partenaire 1">
-                <img class="partners-logo" src="/images/partners/partner2.png" alt="Partenaire 2">
-                <img class="partners-logo" src="/images/partners/partner3.png" alt="Partenaire 3">
-                <img class="partners-logo" src="/images/partners/partner4.png" alt="Partenaire 4">
-                <img class="partners-logo" src="/images/partners/partner5.png" alt="Partenaire 5">
-                <img class="partners-logo" src="/images/partners/partner6.png" alt="Partenaire 6">
-                <!-- Duplique la même série -->
-                <img class="partners-logo" src="/images/partners/partner1.png" alt="Partenaire 1">
-                <img class="partners-logo" src="/images/partners/partner2.png" alt="Partenaire 2">
-                <img class="partners-logo" src="/images/partners/partner3.png" alt="Partenaire 3">
-                <img class="partners-logo" src="/images/partners/partner4.png" alt="Partenaire 4">
-                <img class="partners-logo" src="/images/partners/partner5.png" alt="Partenaire 5">
-                <img class="partners-logo" src="/images/partners/partner6.png" alt="Partenaire 6">
+            <div class="carousel-indicators mt-3">
+                <button type="button" data-bs-target="#messagesCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Message 1"></button>
+                <button type="button" data-bs-target="#messagesCarousel" data-bs-slide-to="1" aria-label="Message 2"></button>
+                <button type="button" data-bs-target="#messagesCarousel" data-bs-slide-to="2" aria-label="Message 3"></button>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ================= TÉMOIGNAGES ================= -->
+<!-- ============ PARTENAIRES ============ -->
+<section class="partners">
+    <div class="container">
+        <h3 class="text-center mb-4 appear">Ils nous font confiance</h3>
+        <div class="partners-viewport appear" style="transition-delay:.06s">
+            <div class="partners-track">
+                <!-- Set A -->
+                <img class="partners-logo" src="/images/partners/partner1.png" alt="Partenaire 1">
+                <img class="partners-logo" src="/images/partners/partner2.png" alt="Partenaire 2">
+                <img class="partners-logo" src="/images/partners/partner3.png" alt="Partenaire 3">
+                <img class="partners-logo" src="/images/partners/partner4.png" alt="Partenaire 4">
+                <img class="partners-logo" src="/images/partners/partner5.png" alt="Partenaire 5">
+                <img class="partners-logo" src="/images/partners/partner6.png" alt="Partenaire 6">
+                <!-- Set B duplicate -->
+                <img class="partners-logo" src="/images/partners/partner1.png" alt="Partenaire 1 (copie)">
+                <img class="partners-logo" src="/images/partners/partner2.png" alt="Partenaire 2 (copie)">
+                <img class="partners-logo" src="/images/partners/partner3.png" alt="Partenaire 3 (copie)">
+                <img class="partners-logo" src="/images/partners/partner4.png" alt="Partenaire 4 (copie)">
+                <img class="partners-logo" src="/images/partners/partner5.png" alt="Partenaire 5 (copie)">
+                <img class="partners-logo" src="/images/partners/partner6.png" alt="Partenaire 6 (copie)">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ TÉMOIGNAGES ============ -->
 <section class="testimonials py-5">
     <div class="container">
-        <div class="text-center mb-4">
+        <div class="text-center mb-4 appear">
             <h3 class="fw-semibold">Ce qu’ils disent de nous</h3>
-            <p class="text-muted mb-0">Des histoires vraies d’impact et de solidarité.</p>
+            <p class="text-muted mb-0">Des histoires d’impact, de confiance et de solidarité.</p>
         </div>
 
         <div class="row g-4">
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card p-3">
+                <div class="card hover-lift p-3 h-100 appear">
                     <div class="card-body">
-                        <div class="quote-mark mb-2">“</div>
-                        <p class="mb-3 text-muted">
-                            Grâce à la plateforme, j’ai trouvé un créneau proche de chez moi en 2 minutes.
-                            L’accueil a été impeccable.
-                        </p>
+                        <div class="quote mb-2">“</div>
+                        <p class="mb-3 text-muted">J’ai trouvé un créneau proche de chez moi en 2 minutes. L’accueil a été impeccable.</p>
                         <div class="d-flex align-items-center gap-3">
                             <img src="/images/testimonials/user1.jpg" class="rounded-circle" style="width:48px;height:48px;object-fit:cover" alt="Jean D.">
                             <div>
@@ -275,12 +382,10 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card p-3">
+                <div class="card hover-lift p-3 h-100 appear" style="transition-delay:.06s">
                     <div class="card-body">
-                        <div class="quote-mark mb-2">“</div>
-                        <p class="mb-3 text-muted">
-                            Notre centre a pu mieux planifier les collectes. Moins d’attente, plus d’efficacité.
-                        </p>
+                        <div class="quote mb-2">“</div>
+                        <p class="mb-3 text-muted">Notre centre planifie mieux les collectes : moins d’attente, plus d’efficacité.</p>
                         <div class="d-flex align-items-center gap-3">
                             <img src="/images/testimonials/user2.jpg" class="rounded-circle" style="width:48px;height:48px;object-fit:cover" alt="Dr. Marie L.">
                             <div>
@@ -292,12 +397,10 @@
                 </div>
             </div>
             <div class="col-12 col-lg-4">
-                <div class="card p-3">
+                <div class="card hover-lift p-3 h-100 appear" style="transition-delay:.12s">
                     <div class="card-body">
-                        <div class="quote-mark mb-2">“</div>
-                        <p class="mb-3 text-muted">
-                            La sensibilisation dans les écoles a fait une vraie différence dans notre communauté.
-                        </p>
+                        <div class="quote mb-2">“</div>
+                        <p class="mb-3 text-muted">La sensibilisation dans les écoles a eu un vrai impact dans notre communauté.</p>
                         <div class="d-flex align-items-center gap-3">
                             <img src="/images/testimonials/user3.jpg" class="rounded-circle" style="width:48px;height:48px;object-fit:cover" alt="Sophie M.">
                             <div>
@@ -315,16 +418,76 @@
 
 @section Scripts {
     <script>
-        // Démarrage du carousel avec intervalle et pause au survol
-        const carouselEl = document.getElementById('activitesCarousel');
-        if (carouselEl) {
-            const carousel = new bootstrap.Carousel(carouselEl, {
-                interval: 5000,
-                ride: false,
-                pause: 'hover',
-                touch: true,
-                wrap: true
+        /* ===== Hero carousel (activités récentes) ===== */
+        const heroActivities = document.getElementById('heroActivitiesCarousel');
+        if (heroActivities) {
+            bootstrap.Carousel.getOrCreateInstance(heroActivities, {
+                interval: 5000, pause: 'hover', ride: false, wrap: true, touch: true, keyboard: true
             });
         }
+
+        /* ===== Messages Carousel + Machine à écrire ===== */
+        const messagesCarousel = document.getElementById('messagesCarousel');
+        const typeElems = messagesCarousel ? messagesCarousel.querySelectorAll('.typewriter') : [];
+
+        function typeText(el, text, speed = 22) {
+            el.textContent = '';
+            let i = 0;
+            function tick() {
+                if (i <= text.length) {
+                    el.textContent = text.slice(0, i);
+                    i++;
+                    el._typingTimeout = setTimeout(tick, speed);
+                }
+            }
+            tick();
+        }
+        function clearTyping(el){ if (el && el._typingTimeout) { clearTimeout(el._typingTimeout); el._typingTimeout = null; } el.textContent = ''; }
+        function startTypingInActiveSlide() {
+            if (!messagesCarousel) return;
+            const active = messagesCarousel.querySelector('.carousel-item.active .typewriter');
+            typeElems.forEach(e => clearTyping(e));
+            if (active) typeText(active, active.getAttribute('data-text') || '');
+        }
+        if (messagesCarousel) {
+            const c = bootstrap.Carousel.getOrCreateInstance(messagesCarousel, { interval: 6000, pause: 'hover', ride: false, wrap: true });
+            startTypingInActiveSlide();
+            messagesCarousel.addEventListener('slid.bs.carousel', startTypingInActiveSlide);
+            messagesCarousel.addEventListener('mouseenter', () => typeElems.forEach(e => clearTyping(e)));
+            messagesCarousel.addEventListener('mouseleave', startTypingInActiveSlide);
+        }
+
+        /* ===== Partenaires : accessibilité / motion ===== */
+        const track = document.querySelector('.partners-track');
+        if (track) {
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReduced) track.style.animationDuration = '40s';
+            track.addEventListener('focusin', () => track.style.animationPlayState = 'paused');
+            track.addEventListener('focusout', () => track.style.animationPlayState = 'running');
+        }
+
+        /* ===== NOUVEL "APPEAR" bidirectionnel (montée/descente) ===== */
+        (function(){
+            const items = document.querySelectorAll('.appear');
+            if (!items.length) return;
+
+            // Quand l'élément entre dans le viewport -> .inview
+            // Quand il en sort -> on retire .inview (ainsi l’effet rejoue dans les deux sens)
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('inview');
+                    } else {
+                        entry.target.classList.remove('inview');
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.12,
+                rootMargin: '0px 0px -10% 0px'
+            });
+
+            items.forEach(el => io.observe(el));
+        })();
     </script>
 }

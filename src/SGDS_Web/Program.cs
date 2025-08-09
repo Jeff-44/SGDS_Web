@@ -38,8 +38,6 @@ builder.Services.Configure<EmailSettings>(
 //    opts.From = Environment.GetEnvironmentVariable("EMAIL__FROM") ?? opts.Username;
 //});
 
-builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
-
 //Web Mappings
 builder.Services.AddAutoMapper(cfg => {}, typeof(DonneurVMMappingProfile));
 builder.Services.AddAutoMapper(cfg => {}, typeof(DossierVMMappingProfile));
