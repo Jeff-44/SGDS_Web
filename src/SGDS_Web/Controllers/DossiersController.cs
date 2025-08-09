@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Entities.Collectes;
 using ApplicationCore.Interfaces.IServices;
 using AutoMapper;
+using Infrastructure.Migrations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -36,18 +37,27 @@ namespace SGDS_Web.Controllers
         public async Task<IActionResult> Details(long idDossier, long donneurId)
         {
             var dossier = new Dossier();
-            if (donneurId > 0 && idDossier == 0)
+            var vm = new DossierVM();
+            try
             {
-                var donneur = await _donneurService.GetDonneurByIdAsync(donneurId);
-                dossier = donneur.Dossier;
-            }
-            else 
-            {
-                dossier = await _dossierService.GetDossierByIdAsync(idDossier);
-            }
+                if (donneurId > 0 && idDossier == 0)
+                {
+                    var donneur = await _donneurService.GetDonneurByIdAsync(donneurId);
+                    dossier = donneur.Dossier;
+                }
+                else
+                {
+                    dossier = await _dossierService.GetDossierByIdAsync(idDossier);
+                }
 
-            var dossiervm = _mapper.Map<DossierVM>(dossier);
-            return View(dossiervm);
+                vm = _mapper.Map<DossierVM>(dossier);
+                return View(vm);
+            }
+            catch 
+            {
+                
+            }
+            return View(vm);
         }
 
         // GET: DossiersController/Create
@@ -85,9 +95,9 @@ namespace SGDS_Web.Controllers
         }
 
         // GET: DossiersController/Edit/5
-        public async Task<IActionResult> Edit(long id)
+        public async Task<IActionResult> Edit(long idDossier)
         {
-            var dossier = await _dossierService.GetByIdAsync(id);
+            var dossier = await _dossierService.GetByIdAsync(idDossier);
             var dossiervm = _mapper.Map<CreerModifierDossier>(dossier);
 
             var donneurs = await _donneurService.GetAllAsync();
@@ -107,7 +117,7 @@ namespace SGDS_Web.Controllers
                     var dossier = await _dossierService.GetByIdAsync(vm.Id);
                     _mapper.Map(vm, dossier);
                     await _dossierService.UpdateAsync(dossier);
-                    return RedirectToAction(nameof(Details), new { vm.Id });
+                    return RedirectToAction(nameof(Details), new { idDossier = vm.Id });
                 }
             }
             catch
@@ -119,9 +129,9 @@ namespace SGDS_Web.Controllers
         }
 
         // GET: DossiersController/Delete/5
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(long idDossier)
         {
-            var dossier = await _dossierService.GetByIdAsync(id);
+            var dossier = await _dossierService.GetByIdAsync(idDossier);
             if (dossier != null)
             {
                 var vm = _mapper.Map<DossierVM>(dossier);

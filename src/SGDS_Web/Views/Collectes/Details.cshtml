@@ -2,48 +2,56 @@
 @model CollecteVM
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Détails de la collecte";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <h3 class="mb-4">
+        <i class="fas fa-calendar-alt text-danger me-2"></i>Détails de la collecte
+    </h3>
 
-<div>
-    <h4>Collecte</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Code)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Code)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateCollecte)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateCollecte)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Libelle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Libelle)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Centre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Centre!.NomCentre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="row g-4">
+                <!-- Code -->
+                <div class="col-md-4">
+                    <strong>Code</strong>
+                    <div>@(Model?.Code ?? "-")</div>
+                </div>
+
+                <!-- Date collecte -->
+                <div class="col-md-4">
+                    <strong>Date de collecte</strong>
+                    <div>@(Model?.DateCollecte.ToString("dd/MM/yyyy") ?? "-")</div>
+                </div>
+
+                <!-- Libellé -->
+                <div class="col-md-4">
+                    <strong>Libellé</strong>
+                    <div>@(Model?.Libelle ?? "-")</div>
+                </div>
+
+                <!-- Centre -->
+                <div class="col-md-4">
+                    <strong>Centre</strong>
+                    <div>@(Model?.Centre?.NomCentre ?? "-")</div>
+                </div>
+
+                <!-- Description -->
+                <div class="col-12">
+                    <strong>Description</strong>
+                    <div class="text-muted">@Html.DisplayFor(m => m.Description)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3 d-flex flex-column flex-sm-row gap-2">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-danger">
+            <i class="fas fa-edit"></i> Modifier
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
 </div>

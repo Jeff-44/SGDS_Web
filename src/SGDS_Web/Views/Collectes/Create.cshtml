@@ -2,52 +2,87 @@
 @model CreerModifierCollecte
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Créer une collecte";
 }
 
-<h1>Create</h1>
+<div class="container mt-4">
+    <h3 class="mb-4">
+        <i class="fas fa-calendar-alt text-danger me-2"></i>Créer une collecte
+    </h3>
 
-<h4>Collecte</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Libelle" class="control-label"></label>
-                <input asp-for="Libelle" class="form-control" />
-                <span asp-validation-for="Libelle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateCollecte" class="control-label"></label>
-                <input asp-for="DateCollecte" class="form-control" />
-                <span asp-validation-for="DateCollecte" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CentreId" class="control-label"></label>
-                <select asp-for="CentreId" class ="form-control" asp-items="@Model.Centres"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <form asp-action="Create" method="post" novalidate>
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row g-3">
+                    <!-- Libellé -->
+                    <div class="col-md-6">
+                        <label asp-for="Libelle" class="form-label">Libellé</label>
+                        <input asp-for="Libelle" class="form-control" />
+                        <span asp-validation-for="Libelle" class="text-danger"></span>
+                    </div>
+
+                    <!-- Code -->
+                    <div class="col-md-6">
+                        <label asp-for="Code" class="form-label">Code</label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-12">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <!-- Date de collecte -->
+                    <div class="col-md-6">
+                        <label asp-for="DateCollecte" class="form-label">Date de collecte</label>
+                        <input asp-for="DateCollecte" type="date" class="form-control" />
+                        <span asp-validation-for="DateCollecte" class="text-danger"></span>
+                    </div>
+
+                    <!-- Centre -->
+                    <div class="col-md-6">
+                        <label asp-for="CentreId" class="form-label">Centre</label>
+                        <select asp-for="CentreId" class="form-select js-select2" asp-items="Model.Centres">
+                            <option value="">-- Sélectionner un centre --</option>
+                        </select>
+                        <span asp-validation-for="CentreId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mt-3 d-flex flex-column flex-sm-row gap-2">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Optionnel : initialisation Select2 si disponible
+        $(function () {
+            if ($.fn.select2) {
+                $('.js-select2').select2({
+                    width: '100%',
+                    placeholder: '-- Sélectionner un centre --',
+                    allowClear: true
+                });
+            }
+        });
+    </script>
 }

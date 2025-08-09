@@ -10,8 +10,6 @@ namespace SGDS_Web.ViewModels.Dossiers
         public long Id { get; set; }
         [Display(Name ="NIF")]
         public long DonneurId { get; set; }
-        [Required(ErrorMessage = "Le numéro de NIF du donneur est obligatoire")]
-
         //-----------------------------
         public Donneur? Donneur { get; set; }
         //-----------------------------
@@ -23,7 +21,7 @@ namespace SGDS_Web.ViewModels.Dossiers
         public bool EstEnceinte { get; set; }
         [Display(Name = "Infection récente")]
         public bool InfectionRecente { get; set; }
-        [DataType(DataType.Date)]
+        //[DataType(DataType.Date)]
         [Display(Name = "Date dernière infection")]
         public DateOnly? DateInfectionRecente { get; set; }
         [Display(Name = "Prise de médicaments actuel")]
@@ -34,7 +32,7 @@ namespace SGDS_Web.ViewModels.Dossiers
         //public DonneurVM? Donneur { get; set; }
 
         //public List<PrelevementVM>? Prelevements { get; set; } = new List<PrelevementVM>();
-        public SelectList? Donneurs { get; set; }
+        //public SelectList? Donneurs { get; set; }
 
 
 

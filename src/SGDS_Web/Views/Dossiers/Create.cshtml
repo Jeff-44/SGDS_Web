@@ -2,77 +2,91 @@
 @model CreerModifierDossier
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Créer un dossier";
 }
 
-<h1>Create</h1>
+<div class="container mt-4">
+    <h3 class="mb-4">
+        <i class="fas fa-folder-plus text-danger me-2"></i>Créer un nouveau dossier
+    </h3>
 
-<h4>Nouveau Dossier</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DonneurId"></label>
-                <select asp-for="DonneurId"
-                        asp-items="Model.Donneurs"
-                        class="form-control js-select2">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="DonneurId" class="form-label">Donneur</label>
+                <select asp-for="DonneurId" asp-items="Model.Donneurs" class="form-select js-select2">
                     <option value="">-- Sélectionnez un donneur --</option>
                 </select>
                 <span asp-validation-for="DonneurId" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="MaladieChronique" /> @Html.DisplayNameFor(model => model.MaladieChronique)
-                </label>
+
+            <div class="col-md-6 mb-3 form-check pt-4">
+                <label class="form-check-label" asp-for="MaladieChronique"></label>
+                <input class="form-check-input" asp-for="MaladieChronique" id="MaladieChronique" />
             </div>
-            <div class="form-group">
-                <label asp-for="DetailsMaladieChronique" class="control-label"></label>
+
+            <div class="col-md-6 mb-3">
+                <label asp-for="DetailsMaladieChronique" class="form-label"></label>
                 <input asp-for="DetailsMaladieChronique" class="form-control" />
                 <span asp-validation-for="DetailsMaladieChronique" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EstAnemie" /> @Html.DisplayNameFor(model => model.EstAnemie)
-                </label>
+
+            <div class="col-md-6 mb-3 form-check pt-4">
+                <label class="form-check-label" asp-for="EstAnemie"></label>
+                <input class="form-check-input" asp-for="EstAnemie" id="EstAnemie" />
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EstEnceinte" /> @Html.DisplayNameFor(model => model.EstEnceinte)
-                </label>
+
+            <div class="col-md-6 mb-3 form-check pt-4">
+                <label class="form-check-label" asp-for="EstEnceinte"></label>
+                <input class="form-check-input" asp-for="EstEnceinte" id="EstEnceinte" />
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="InfectionRecente" /> @Html.DisplayNameFor(model => model.InfectionRecente)
-                </label>
+
+            <div class="col-md-6 mb-3 form-check pt-4">
+                <label class="form-check-label" asp-for="InfectionRecente"></label>
+                <input class="form-check-input" asp-for="InfectionRecente" id="InfectionRecente" />
             </div>
-            <div class="form-group">
-                <label asp-for="DateInfectionRecente" class="control-label"></label>
-                <input asp-for="DateInfectionRecente" class="form-control" />
+
+            <div class="col-md-6 mb-3">
+                <label asp-for="DateInfectionRecente" class="form-label"></label>
+                <input asp-for="DateInfectionRecente" class="form-control" type="date" />
                 <span asp-validation-for="DateInfectionRecente" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PriseDeMedicamentsActuel" class="control-label"></label>
+
+            <div class="col-md-6 mb-3">
+                <label asp-for="PriseDeMedicamentsActuel" class="form-label"></label>
                 <input asp-for="PriseDeMedicamentsActuel" class="form-control" />
                 <span asp-validation-for="PriseDeMedicamentsActuel" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Poids" class="control-label"></label>
-                <input asp-for="Poids" class="form-control" />
+
+            <div class="col-md-6 mb-4">
+                <label asp-for="Poids" class="form-label">Poids (kg)</label>
+                <input asp-for="Poids" class="form-control" type="number" min="0" step="0.1" />
                 <span asp-validation-for="Poids" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-save me-1"></i>Créer
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Retour à la liste</a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+ }
+    <script>
+        $(function () {
+            $('.js-select2').select2({
+                placeholder: "Sélectionner un donneur",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
 }

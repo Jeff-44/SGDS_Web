@@ -2,109 +2,163 @@
 @model SGDS_Web.ViewModels.Centres.CreerModifierCentre
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Modifier un centre";
 }
 
-<h1>Edit</h1>
+<div class="container mt-4">
+    <h3 class="mb-4">
+        <i class="fas fa-hospital-alt text-danger me-2"></i>Modifier un centre
+    </h3>
 
-<h4>Centre</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            @* <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <label asp-for="NomCentre" class="control-label"></label>
-                <input asp-for="NomCentre" class="form-control" />
-                <span asp-validation-for="NomCentre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TypeCentre" class="control-label"></label>
-                <input asp-for="TypeCentre" class="form-control" />
-                <span asp-validation-for="TypeCentre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartementId" class="control-label"></label>
-                <select asp-for="DepartementId" id="departementSelect" class="form-control" asp-items="@Model.Departements">
-                    <option value="">--Selectionner un département--</option>
-                </select>
-                <span asp-validation-for="DepartementId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ArrondissementId" class="control-label"></label>
-                <select asp-for="ArrondissementId" id="arrondissementSelect" class="form-control">
-                    <option value="">--Selectionner un arrondissement--</option>
-                </select>
-                <span asp-validation-for="ArrondissementId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CommuneId" class="control-label"></label>
-                <select asp-for="CommuneId" id="communeSelect" class="form-control">
-                    <option value="">--Selectionner une commune--</option>
-                </select>
-                <span asp-validation-for="CommuneId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <form asp-action="Edit" method="post" novalidate>
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row g-3">
+                    @* Code (si nécessaire)
+                    <div class="col-md-6">
+                        <label asp-for="Code" class="form-label"></label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div> *@
+
+                    <div class="col-md-6">
+                        <label asp-for="NomCentre" class="form-label"></label>
+                        <input asp-for="NomCentre" class="form-control" />
+                        <span asp-validation-for="NomCentre" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="TypeCentre" class="form-label"></label>
+                        <input asp-for="TypeCentre" class="form-control" />
+                        <span asp-validation-for="TypeCentre" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="DepartementId" class="form-label"></label>
+                        <select asp-for="DepartementId"
+                                id="departementSelect"
+                                class="form-select"
+                                asp-items="Model.Departements">
+                            <option value="">-- Sélectionner un département --</option>
+                        </select>
+                        <span asp-validation-for="DepartementId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="ArrondissementId" class="form-label"></label>
+                        <select asp-for="ArrondissementId"
+                                id="arrondissementSelect"
+                                class="form-select">
+                            <option value="">-- Sélectionner un arrondissement --</option>
+                        </select>
+                        <span asp-validation-for="ArrondissementId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="CommuneId" class="form-label"></label>
+                        <select asp-for="CommuneId"
+                                id="communeSelect"
+                                class="form-select">
+                            <option value="">-- Sélectionner une commune --</option>
+                        </select>
+                        <span asp-validation-for="CommuneId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mt-3 d-flex flex-column flex-sm-row gap-2">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 <script>
     const allArrondissements = @Html.Raw(JsonSerializer.Serialize(Model.Arrondissements));
     const allCommunes        = @Html.Raw(JsonSerializer.Serialize(Model.Communes));
+
+    // Valeurs sélectionnées côté serveur (pour pré-remplissage)
+    const selectedDep = @(Model?.DepartementId ?? 0);
+    const selectedArr = @(Model?.ArrondissementId ?? 0);
+    const selectedCom = @(Model?.CommuneId ?? 0);
 </script>
+
 @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script>
-        $(function(){
-          // When departement changes → filter arrondissements
-          $('#departementSelect').on('change', function(){
-            const depId = +this.value; // unary + ensures we get a number
-            $('#arrondissementSelect')
-              .empty()
-              .append('<option value="">--Sélectionner un arrondissement--</option>');
-            $('#communeSelect')
-              .empty()
-              .append('<option value="">--Sélectionner une commune--</option>');
+        $(function () {
+            const $dep = $('#departementSelect');
+            const $arr = $('#arrondissementSelect');
+            const $com = $('#communeSelect');
 
-            if (!depId) return;
+            function resetArr() {
+                $arr.empty().append('<option value="">-- Sélectionner un arrondissement --</option>');
+            }
+            function resetCom() {
+                $com.empty().append('<option value="">-- Sélectionner une commune --</option>');
+            }
 
-            allArrondissements
-              .filter(a => a.DepartementId === depId)
-              .forEach(a => {
-                // backtick template literal → inject values
-                $('#arrondissementSelect')
-                  .append(`<option value="${a.Id}">${a.Nom}</option>`);
-              });
-          });
+            function fillArrondissements(depId, arrToSelect) {
+                resetArr();
+                if (!depId) return;
 
-          // When arrondissement changes → filter communes
-          $('#arrondissementSelect').on('change', function(){
-            const arrId = +this.value;
-            $('#communeSelect')
-              .empty()
-              .append('<option value="">--Sélectionner une commune--</option>');
+                allArrondissements
+                    .filter(a => parseInt(a.DepartementId, 10) === parseInt(depId, 10))
+                    .forEach(a => $arr.append(`<option value="${a.Id}">${a.Nom}</option>`));
 
-            if (!arrId) return;
+                if (arrToSelect) {
+                    $arr.val(String(arrToSelect));
+                }
+            }
 
-            allCommunes
-              .filter(c => c.ArrondissementId === arrId)
-              .forEach(c => {
-                $('#communeSelect')
-                  .append(`<option value="${c.Id}">${c.Nom}</option>`);
-              });
-          });
+            function fillCommunes(arrId, comToSelect) {
+                resetCom();
+                if (!arrId) return;
+
+                allCommunes
+                    .filter(c => parseInt(c.ArrondissementId, 10) === parseInt(arrId, 10))
+                    .forEach(c => $com.append(`<option value="${c.Id}">${c.Nom}</option>`));
+
+                if (comToSelect) {
+                    $com.val(String(comToSelect));
+                }
+            }
+
+            // Au changement du département
+            $dep.on('change', function () {
+                const depId = this.value ? parseInt(this.value, 10) : 0;
+                fillArrondissements(depId, null);
+                resetCom();
+            });
+
+            // Au changement de l'arrondissement
+            $arr.on('change', function () {
+                const arrId = this.value ? parseInt(this.value, 10) : 0;
+                fillCommunes(arrId, null);
+            });
+
+            // --- Pré-remplissage initial à l’ouverture de la page ---
+            if (selectedDep) {
+                // S'assure que le select département est à la bonne valeur (au cas où les items viennent du serveur)
+                $dep.val(String(selectedDep));
+                fillArrondissements(selectedDep, selectedArr || null);
+
+                if (selectedArr) {
+                    fillCommunes(selectedArr, selectedCom || null);
+                }
+            }
         });
     </script>
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

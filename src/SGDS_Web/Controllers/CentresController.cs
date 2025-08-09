@@ -176,7 +176,7 @@ namespace SGDS_Web.Controllers
         }
 
         // GET: centresController/Delete/5
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(int id)
         {
             var centre = await _centreService.GetByIdAsync(id);
             if (centre == null)
@@ -190,7 +190,7 @@ namespace SGDS_Web.Controllers
         // POST: centresController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(long id, bool? notused = null)
+        public async Task<IActionResult> Delete(int id, bool? notused = null)
         {
             try
             {

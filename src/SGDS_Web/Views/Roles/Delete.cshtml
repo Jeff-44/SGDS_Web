@@ -1,39 +1,54 @@
 ﻿@using SGDS_Web.ViewModels.Users
 @model RoleVM
+
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Suppression du rôle";
 }
 
-<h1>Delete</h1>
+<div class="container mt-4">
+    <h3 class="mb-4">
+        <i class="fas fa-user-shield text-danger me-2"></i>Suppression du rôle
+    </h3>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Centre</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
+    <div class="alert alert-warning">
+        <strong>Attention !</strong> Êtes-vous sûr de vouloir supprimer ce rôle ? Cette action est irréversible.
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <strong>Identifiant</strong>
+                    <div>@(Model?.Id ?? "-")</div>
+                </div>
+                <div class="col-md-6">
+                    <strong>Nom du rôle</strong>
+                    <div>@(Model?.Name ?? "-")</div>
+                </div>
+
+                @* Si tu exposes le nombre d'utilisateurs liés (ex. Model.UserCount) :
+                <div class="col-md-6">
+                    <strong>Utilisateurs associés</strong>
+                    <div><span class="badge bg-secondary">@Model.UserCount</span></div>
+                </div> *@
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Delete" method="post" class="mt-3 d-flex flex-column flex-sm-row gap-2">
+        @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i> Supprimer
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
     </form>
 </div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-

@@ -2,93 +2,70 @@
 @model DonneurVM
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Supprimer Donneur";
 }
 
-<h1>Delete</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-light border-bottom d-flex align-items-center">
+            <i class="fas fa-user-times me-2 text-danger"></i>
+            <h5 class="mb-0">Confirmer la suppression</h5>
+        </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Donneur</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GroupeSanguin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GroupeSanguin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CIN)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CIN)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NIF)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NIF)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nom)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Prenom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Prenom)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sexe)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sexe)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateNaissance)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateNaissance)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StatutMatrimonial)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StatutMatrimonial)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Occupation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Occupation)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Adresse)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Adresse)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telephone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telephone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+        <div class="card-body">
+            <p class="text-danger fw-semibold">
+                Êtes-vous sûr de vouloir supprimer ce donneur ? Cette action est irréversible.
+            </p>
+
+            <dl class="row">
+                <dt class="col-sm-3">Nom</dt>
+                <dd class="col-sm-9">@Model.Nom</dd>
+
+                <dt class="col-sm-3">Prénom</dt>
+                <dd class="col-sm-9">@Model.Prenom</dd>
+
+                <dt class="col-sm-3">CIN</dt>
+                <dd class="col-sm-9">@Model.CIN</dd>
+
+                <dt class="col-sm-3">NIF</dt>
+                <dd class="col-sm-9">@Model.NIF</dd>
+
+                <dt class="col-sm-3">Sexe</dt>
+                <dd class="col-sm-9">@Model.Sexe</dd>
+
+                <dt class="col-sm-3">Date de naissance</dt>
+                <dd class="col-sm-9">@Model.DateNaissance</dd>
+
+                <dt class="col-sm-3">Groupe sanguin</dt>
+                <dd class="col-sm-9">@Model.GroupeSanguin</dd>
+
+                <dt class="col-sm-3">Statut matrimonial</dt>
+                <dd class="col-sm-9">@Model.StatutMatrimonial</dd>
+
+                <dt class="col-sm-3">Occupation</dt>
+                <dd class="col-sm-9">@Model.Occupation</dd>
+
+                <dt class="col-sm-3">Adresse</dt>
+                <dd class="col-sm-9">@Model.Adresse</dd>
+
+                <dt class="col-sm-3">Téléphone</dt>
+                <dd class="col-sm-9">@Model.Telephone</dd>
+
+                <dt class="col-sm-3">Email</dt>
+                <dd class="col-sm-9">@Model.Email</dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-danger me-2">
+                        <i class="fas fa-trash-alt me-1"></i> Supprimer
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

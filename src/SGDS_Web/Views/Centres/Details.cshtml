@@ -1,42 +1,50 @@
 ﻿@model SGDS_Web.ViewModels.Centres.CentreVM
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Détails du centre";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <h3 class="mb-4">
+        <i class="fas fa-hospital-alt text-danger me-2"></i>Détails du centre
+    </h3>
 
-<div>
-    <h4>Centre</h4>
-    <hr />
-    <dl class="row">
-        @* <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Code)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Code)
-        </dd> *@
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NomCentre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NomCentre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TypeCentre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TypeCentre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CommuneId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CommuneId)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="row g-4">
+                @* Code (décommenter si nécessaire) *@
+                @* <div class="col-md-4">
+                    <strong>Code</strong>
+                    <div>@(Model?.Code ?? "-")</div>
+                </div> *@
+
+                <!-- Nom du centre -->
+                <div class="col-md-4">
+                    <strong>Nom du centre</strong>
+                    <div>@(Model?.NomCentre ?? "-")</div>
+                </div>
+
+                <!-- Type de centre -->
+                <div class="col-md-4">
+                    <strong>Type de centre</strong>
+                    <div>@(Model?.TypeCentre ?? "-")</div>
+                </div>
+
+                <!-- Commune -->
+                <div class="col-md-4">
+                    <strong>Commune</strong>
+                    <div>@(Model?.Commune?.Nom.ToString() ?? "-") @* Remplacer par le nom si dispo *@</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3 d-flex flex-column flex-sm-row gap-2">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-danger">
+            <i class="fas fa-edit"></i> Modifier
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
 </div>
