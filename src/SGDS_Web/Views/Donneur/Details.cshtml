@@ -2,107 +2,55 @@
 @model DonneurVM
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Détails du Donneur";
 }
 
-<h1>Details</h1>
-<a asp-action="Create" asp-controller="Dossiers" asp-route-donneurId="@Model.Id">Ajouter un dossier</a>
-<br />
-<a asp-action="Details" asp-controller="Dossiers" asp-route-donneurId="@Model.Id">Dossier</a>
-<br />
-<a asp-action="Create" asp-controller="Dons" asp-route-donneurId="@Model.Id">Ajouter un don</a>
-<div>
-    <h4>Donneur</h4>
-    
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GroupeSanguin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GroupeSanguin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CIN)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CIN)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NIF)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NIF)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nom)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Prenom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Prenom)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sexe)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sexe)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateNaissance)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateNaissance)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StatutMatrimonial)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StatutMatrimonial)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Occupation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Occupation)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Adresse)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Adresse)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telephone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telephone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EstEligible)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EstEligible)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-light border-bottom d-flex align-items-center">
+            <i class="fas fa-user me-2 text-danger"></i>
+            <h5 class="mb-0">Détails du Donneur</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6"><strong>Groupe Sanguin:</strong> @Model.GroupeSanguin</div>
+                <div class="col-md-6"><strong>CIN:</strong> @Model.CIN</div>
+                <div class="col-md-6"><strong>NIF:</strong> @Model.NIF</div>
+                <div class="col-md-6"><strong>Nom:</strong> @Model.Nom</div>
+                <div class="col-md-6"><strong>Prénom:</strong> @Model.Prenom</div>
+                <div class="col-md-6"><strong>Sexe:</strong> @Model.Sexe</div>
+                <div class="col-md-6"><strong>Date de Naissance:</strong> @Model.DateNaissance.ToShortDateString()</div>
+                <div class="col-md-6"><strong>Statut Matrimonial:</strong> @Model.StatutMatrimonial</div>
+                <div class="col-md-6"><strong>Occupation:</strong> @Model.Occupation</div>
+                <div class="col-md-6"><strong>Adresse:</strong> @Model.Adresse</div>
+                <div class="col-md-6"><strong>Téléphone:</strong> @Model.Telephone</div>
+                <div class="col-md-6"><strong>Email:</strong> @Model.Email</div>
+                <div class="col-md-6"><strong>Éligible:</strong> @(Model.EstEligible ? "Oui" : "Non")</div>
+            </div>
+
+            <div class="mt-4">
+                <a class="btn btn-outline-danger me-2" asp-action="Edit" asp-route-id="@Model.Id">
+                    <i class="fas fa-edit me-1"></i> Modifier
+                </a>
+                <a class="btn btn-secondary" asp-action="Index">
+                    <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+                </a>
+            </div>
+
+            <hr />
+
+            <div class="mt-3">
+                <a class="btn btn-outline-primary me-2" asp-action="Create" asp-controller="Dossiers" asp-route-donneurId="@Model.Id">
+                    <i class="fas fa-folder-plus me-1"></i> Ajouter un dossier
+                </a>
+                <a class="btn btn-outline-info me-2" asp-action="Details" asp-controller="Dossiers" asp-route-donneurId="@Model.Id">
+                    <i class="fas fa-folder-open me-1"></i> Voir le dossier
+                </a>
+                <a class="btn btn-outline-success" asp-action="Create" asp-controller="Dons" asp-route-donneurId="@Model.Id">
+                    <i class="fas fa-tint me-1"></i> Ajouter un don
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

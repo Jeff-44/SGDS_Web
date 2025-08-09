@@ -1,23 +1,64 @@
 ﻿@page
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Register confirmation";
+    ViewData["Title"] = "Confirmation de l'inscription";
+    Layout = "_LoginLayout"; // même layout que Login/Register/ForgotPassword/ConfirmEmail
 }
 
-<h1>@ViewData["Title"]</h1>
-@{
-    if (@Model.DisplayConfirmAccountLink)
-    {
-<p>
-    This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-</p>
-    }
-    else
-    {
-<p>
-        Please check your email to confirm your account.
-</p>
-    }
-}
+<div class="row w-100 justify-content-center m-0">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4 p-0">
 
+        <div class="card login-card border-0 shadow-lg rounded-4">
+            <div class="card-body p-4 p-md-5 text-center">
+
+                <!-- Logo -->
+                <img src="~/images/logo.png" alt="Logo" class="mb-3" style="max-height:64px;">
+
+                <!-- Titre -->
+                <h2 class="mb-1 fw-semibold text-danger">Confirmation de l'inscription</h2>
+
+                @if (Model.DisplayConfirmAccountLink)
+                {
+                    <!-- Mode développement / pas d'email sender configuré -->
+                    <div class="alert alert-warning text-start mt-3 mb-4 rounded-3">
+                        Cette application n’a pas encore de service d’envoi d’emails configuré.
+                        Consultez <a href="https://aka.ms/aspaccountconf" target="_blank" rel="noopener">la documentation</a>
+                        pour activer un expéditeur réel.
+                    </div>
+
+                    <p class="text-muted mb-4">
+                        Lien de confirmation (démo) :
+                        <br />
+                        <a id="confirm-link" class="fw-semibold" href="@Model.EmailConfirmationUrl">Cliquez ici pour confirmer votre compte</a>.
+                    </p>
+                }
+                else
+                {
+                    <!-- Mode production -->
+                    <p class="text-muted mb-4">
+                        Nous vous avons envoyé un email de confirmation. Veuillez consulter votre boîte de réception
+                        (et le dossier spam) puis suivre le lien pour activer votre compte.
+                    </p>
+                }
+
+                <!-- Actions -->
+                <div class="d-grid gap-2">
+                    <a class="btn btn-danger btn-lg rounded-3"
+                       asp-page="./Login"
+                       asp-route-returnUrl="@(Url.Content("~/"))">
+                        Aller à la connexion
+                    </a>
+                    <a class="btn btn-outline-secondary rounded-3"
+                       asp-page="./ResendEmailConfirmation">
+                        Renvoyer l’email de confirmation
+                    </a>
+                    <a class="btn btn-link text-decoration-none" asp-area="" asp-page="/Index">
+                        Retour à l’accueil
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

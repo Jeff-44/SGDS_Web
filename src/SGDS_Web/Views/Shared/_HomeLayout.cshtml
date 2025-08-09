@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>@ViewData["Title"] - SGDS</title>
+
+    <!-- Bootstrap & base -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SGDS_Web.styles.css" asp-append-version="true" />
+
+    <!-- Icons / Select2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+
+    <style>
+        :root {
+            --brand: #dc3545; /* rouge principal */
+            --brand-700: #b02a37; /* hover plus profond */
+            --ink: #1f2937; /* gris foncé lisible */
+            --bg: #ffffff; /* fond principal */
+            --footer-bg: #f5f6fb; /* fond footer légèrement différent */
+        }
+
+        /* ===== NAVBAR moderne (glass) ===== */
+        .app-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            backdrop-filter: saturate(120%) blur(8px);
+            background: rgba(255,255,255,.85);
+            border-bottom: 1px solid rgba(0,0,0,.06);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: .2px;
+            color: var(--brand) !important;
+        }
+
+        .navbar .nav-link {
+            position: relative;
+            font-weight: 600;
+            color: var(--ink) !important;
+            padding: .75rem 1rem;
+            transition: color .25s ease, transform .15s ease;
+        }
+
+            .navbar .nav-link::after {
+                content: "";
+                position: absolute;
+                left: 1rem;
+                right: 1rem;
+                bottom: .45rem;
+                height: 2px;
+                background: var(--brand);
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform .25s ease;
+                opacity: .9;
+            }
+
+            .navbar .nav-link:hover, .navbar .nav-link:focus {
+                color: var(--brand) !important;
+                transform: translateY(-1px);
+            }
+
+                .navbar .nav-link:hover::after, .navbar .nav-link:focus::after, .navbar .nav-link.active::after {
+                    transform: scaleX(1);
+                }
+
+            .navbar .nav-link.active {
+                color: var(--brand) !important;
+            }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+            .navbar-toggler:focus {
+                box-shadow: 0 0 0 .15rem rgba(220,53,69,.25);
+            }
+
+        /* ===== GLOBAL ===== */
+        body {
+            background: var(--bg);
+            overflow-x: hidden;
+        }
+
+        main[role="main"] {
+            min-height: 60vh;
+        }
+
+        /* Boutons transition douce (cohérence UI) */
+        .btn, .btn-danger, .btn-outline-secondary {
+            transition: background-color .25s ease, color .25s ease, transform .15s ease, border-color .25s ease;
+        }
+
+            .btn-danger:hover {
+                background-color: var(--brand-700);
+                transform: translateY(-1px);
+            }
+
+            .btn-outline-secondary:hover {
+                transform: translateY(-1px);
+            }
+
+        /* Cards : hover lift doux (réutilisable) */
+        .card.hover-lift {
+            transition: transform .25s ease, box-shadow .25s ease;
+            box-shadow: 0 6px 22px rgba(0,0,0,.06);
+            border: 0;
+            border-radius: 1rem;
+        }
+
+            .card.hover-lift:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 16px 42px rgba(0,0,0,.12);
+            }
+
+        /* Select2 */
+        .select2-container .select2-selection--single {
+            height: calc(2.5rem + 2px);
+            padding: .5rem .75rem;
+            border-radius: .5rem;
+            border-color: #dee2e6;
+        }
+
+        /* ===== FOOTER riche ===== */
+        footer.footer {
+            background: var(--footer-bg);
+            border-top: 1px solid rgba(0,0,0,.06);
+        }
+
+        .footer a {
+            text-decoration: none;
+        }
+
+            .footer a:hover {
+                text-decoration: underline;
+            }
+
+        .footer .social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,.08);
+            transition: transform .2s ease, border-color .2s ease;
+        }
+
+            .footer .social a:hover {
+                transform: translateY(-2px);
+                border-color: var(--brand);
+            }
+
+        .footer .newsletter .form-control {
+            border-radius: .5rem;
+        }
+
+        .footer .newsletter .btn {
+            border-radius: .5rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-navbar">
+        <nav class="navbar navbar-expand-md navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fa-solid fa-droplet"></i> SGDS
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav"
+                        aria-controls="topNav" aria-expanded="false" aria-label="Ouvrir la navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div id="topNav" class="collapse navbar-collapse">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Home/Index") == true ? "active" : "")"
+                               asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Home/Privacy") == true ? "active" : "")"
+                               asp-area="" asp-controller="Home" asp-action="Privacy">Confidentialité</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Donneur") == true ? "active" : "")"
+                               asp-area="" asp-controller="Donneur" asp-action="Index">Donneurs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Dons") == true ? "active" : "")"
+                               asp-area="" asp-controller="Dons" asp-action="Index">Dons</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Collectes") == true ? "active" : "")"
+                               asp-area="" asp-controller="Collectes" asp-action="Index">Collectes</a>
+                        </li>
+                        <li class="nav-item ms-2"><partial name="_LoginPartial" /></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- PLEIN ÉCRAN -->
+    <div class="container-fluid p-0">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer-modern text-light pt-5 pb-4">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Col 1 -->
+                <div class="col-12 col-md-4">
+                    <h5 class="fw-semibold mb-3">À propos</h5>
+                    <p class="text-light opacity-85">
+                        Nous connectons donneurs, centres et communautés pour assurer l’accès au sang, partout et à temps.
+                    </p>
+                </div>
+
+                <!-- Col 2 -->
+                <div class="col-6 col-md-2">
+                    <h5 class="fw-semibold mb-3">Liens rapides</h5>
+                    <ul class="list-unstyled">
+                        <li><a asp-controller="Home" asp-action="Index" class="footer-link">Accueil</a></li>
+                        <li><a asp-controller="Donneur" asp-action="Index" class="footer-link">Donneurs</a></li>
+                        <li><a asp-controller="Dons" asp-action="Index" class="footer-link">Dons</a></li>
+                        <li><a asp-controller="Collectes" asp-action="Index" class="footer-link">Collectes</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3 -->
+                <div class="col-6 col-md-3">
+                    <h5 class="fw-semibold mb-3">Contact</h5>
+                    <ul class="list-unstyled small">
+                        <li><i class="fas fa-map-marker-alt me-2 text-danger"></i>123 Rue Principale, Ville</li>
+                        <li><i class="fas fa-phone me-2 text-danger"></i>+509 1234 5678</li>
+                        <li><i class="fas fa-envelope me-2 text-danger"></i>contact@sgds.org</li>
+                    </ul>
+                </div>
+
+                <!-- Col 4 -->
+                <div class="col-12 col-md-3">
+                    <h5 class="fw-semibold mb-3">Suivez-nous</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-light opacity-25 my-4">
+
+            <div class="text-center small opacity-75">
+                &copy; @DateTime.Now.Year SGDS — Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(function(){ $('.js-select2').select2({ placeholder:"Tapez pour filtrer…", allowClear:true, width:'100%' }); });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

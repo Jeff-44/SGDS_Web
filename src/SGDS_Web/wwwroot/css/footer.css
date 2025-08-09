@@ -1,0 +1,31 @@
+﻿.footer-modern {
+    background-color: #555555; /* gris moyen ~35% */
+}
+
+.footer-link {
+    color: rgba(255,255,255,.85);
+    text-decoration: none;
+    transition: color .25s ease;
+}
+
+    .footer-link:hover {
+        color: #dc3545;
+    }
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.08);
+    color: #fff;
+    transition: background .25s ease, transform .25s ease;
+    font-size: 1rem;
+}
+
+    .social-link:hover {
+        background: #dc3545;
+        transform: translateY(-3px);
+    }

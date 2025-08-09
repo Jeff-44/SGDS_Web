@@ -2,75 +2,74 @@
 @model DossierVM
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Suppression du dossier";
 }
 
-<h1>Delete</h1>
+<div class="container mt-4">
+    <h3 class="mb-4">
+        <i class="fas fa-folder-open text-danger me-2"></i>Suppression du dossier @Model.Id
+    </h3>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Dossier</h4>
-    <hr />
-    <dl class="row">
-        @* <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Donneur)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Donneur.CIN)
-        </dd> *@
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaladieChronique)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaladieChronique)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DetailsMaladieChronique)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DetailsMaladieChronique)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EstAnemie)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EstAnemie)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EstEnceinte)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EstEnceinte)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InfectionRecente)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InfectionRecente)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateInfectionRecente)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateInfectionRecente)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PriseDeMedicamentsActuel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PriseDeMedicamentsActuel)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Poids)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Poids)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
+    <div class="alert alert-warning">
+        <strong>Attention !</strong> Êtes-vous sûr de vouloir supprimer ce dossier ? Cette action est irréversible.
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-4">Donneur (NIF)</dt>
+                <dd class="col-sm-8">@(@Model?.Donneur?.NIF ?? "-")</dd>
+
+                <dt class="col-sm-4">Maladie chronique</dt>
+                <dd class="col-sm-8">
+                    <span class="badge @(Model?.MaladieChronique == true ? "bg-danger" : "bg-secondary")">
+                        @(Model?.MaladieChronique == true ? "Oui" : "Non")
+                    </span>
+                </dd>
+
+                <dt class="col-sm-4">Détails maladie</dt>
+                <dd class="col-sm-8">@(@Model?.DetailsMaladieChronique ?? "-")</dd>
+
+                <dt class="col-sm-4">Anémie</dt>
+                <dd class="col-sm-8">
+                    <span class="badge @(Model?.EstAnemie == true ? "bg-danger" : "bg-secondary")">
+                        @(Model?.EstAnemie == true ? "Oui" : "Non")
+                    </span>
+                </dd>
+
+                <dt class="col-sm-4">Enceinte</dt>
+                <dd class="col-sm-8">
+                    <span class="badge @(Model?.EstEnceinte == true ? "bg-danger" : "bg-secondary")">
+                        @(Model?.EstEnceinte == true ? "Oui" : "Non")
+                    </span>
+                </dd>
+
+                <dt class="col-sm-4">Infection récente</dt>
+                <dd class="col-sm-8">
+                    <span class="badge @(Model?.InfectionRecente == true ? "bg-danger" : "bg-secondary")">
+                        @(Model?.InfectionRecente == true ? "Oui" : "Non")
+                    </span>
+                </dd>
+
+                <dt class="col-sm-4">Date infection</dt>
+                <dd class="col-sm-8">@(@Model?.DateInfectionRecente?.ToString("dd/MM/yyyy") ?? "-")</dd>
+
+                <dt class="col-sm-4">Médicaments actuels</dt>
+                <dd class="col-sm-8">@(@Model?.PriseDeMedicamentsActuel ?? "-")</dd>
+
+                <dt class="col-sm-4">Poids (kg)</dt>
+                <dd class="col-sm-8">@(@Model?.Poids.ToString() ?? "-")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <form asp-action="Delete" method="post" class="mt-3 d-flex flex-column flex-sm-row gap-2">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i> Supprimer
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
     </form>
 </div>

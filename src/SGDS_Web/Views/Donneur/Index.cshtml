@@ -2,108 +2,72 @@
 @model IEnumerable<DonneurVM>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Liste des donneurs";
 }
 
-<h1>Index</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0"><i class="fas fa-users me-2 text-danger"></i>Donneurs</h3>
+        <a asp-action="Create" class="btn btn-danger">
+            <i class="fas fa-plus me-1"></i> Nouveau donneur
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CIN)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NIF)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nom)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prenom)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sexe)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateNaissance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GroupeSanguin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StatutMatrimonial)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Occupation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Adresse)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telephone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstEligible)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CIN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NIF)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prenom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sexe)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateNaissance)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GroupeSanguin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StatutMatrimonial)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Occupation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adresse)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telephone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstEligible)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Details" asp-controller="Dossiers" asp-route-donneurId="@item.Id"><i class="fa fas-folder">Dossier</i></a>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="table-responsive shadow-sm border rounded">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.CIN)</th>
+                    <th>@Html.DisplayNameFor(model => model.NIF)</th>
+                    <th>@Html.DisplayNameFor(model => model.Nom)</th>
+                    <th>@Html.DisplayNameFor(model => model.Prenom)</th>
+                    <th>@Html.DisplayNameFor(model => model.Sexe)</th>
+                    <th>@Html.DisplayNameFor(model => model.DateNaissance)</th>
+                    <th>@Html.DisplayNameFor(model => model.GroupeSanguin)</th>
+                    <th>@Html.DisplayNameFor(model => model.Telephone)</th>
+                    <th>@Html.DisplayNameFor(model => model.EstEligible)</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CIN</td>
+                        <td>@item.NIF</td>
+                        <td>@item.Nom</td>
+                        <td>@item.Prenom</td>
+                        <td>@item.Sexe</td>
+                        <td>@item.DateNaissance.ToString("dd/MM/yyyy")</td>
+                        <td>@item.GroupeSanguin</td>
+                        <td>@item.Telephone</td>
+                        <td>
+                            @if (item.EstEligible)
+                            {
+                                <span class="badge bg-success">Oui</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Non</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-1" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-1" title="Détails">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                            <a asp-action="Details" asp-controller="Dossiers" asp-route-donneurId="@item.Id" class="btn btn-sm btn-outline-secondary me-1" title="Dossier">
+                                <i class="fas fa-folder"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" title="Supprimer">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

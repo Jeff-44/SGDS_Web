@@ -2,42 +2,96 @@
 @model UserVM
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Détails de l'utilisateur";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <h3 class="mb-4">
+        <i class="fas fa-user text-danger me-2"></i>Détails de l'utilisateur
+    </h3>
 
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="row g-4">
+
+                <!-- Identité -->
+                <div class="col-12">
+                    <h6 class="text-uppercase text-muted mb-2">Identité</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <strong>Nom complet</strong>
+                            <div>
+                                @{
+                                    var fullName = string.Join(" ",
+                                    new[] { Model?.FirstName, Model?.LastName }
+                                    .Where(s => !string.IsNullOrWhiteSpace(s))
+                                    );
+                                }
+                                @(string.IsNullOrWhiteSpace(fullName) ? "-" : fullName)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compte -->
+                <div class="col-12">
+                    <h6 class="text-uppercase text-muted mb-2">Compte</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <strong>Email</strong>
+                            <div>@(Model?.Email ?? "-")</div>
+                        </div>
+                        @* <div class="col-md-6">
+                            <strong>Rôles</strong>
+                            <div>
+                                @if (Model?.Roles != null && Model.Roles.Any())
+                                {
+                                    foreach (var role in Model.Roles)
+                                    {
+                                        <span class="badge bg-secondary me-1">@role</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </div>
+                        </div> *@
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="col-12">
+                    <h6 class="text-uppercase text-muted mb-2">Contact</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <strong>Téléphone</strong>
+                            <div>@(Model?.PhoneNumber ?? "-")</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activité -->
+                <div class="col-12">
+                    <h6 class="text-uppercase text-muted mb-2">Activité</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <strong>Dernière connexion</strong>
+                            @* <div>@(Model?.LastLogin?.ToString("dd/MM/yyyy HH:mm") ?? "-")</div> *@
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3 d-flex flex-column flex-sm-row gap-2">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-danger">
+            <i class="fas fa-edit"></i> Modifier
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
 </div>

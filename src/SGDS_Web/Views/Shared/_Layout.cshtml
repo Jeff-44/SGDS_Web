@@ -3,92 +3,55 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SGDS_Web</title>
+    <title>@ViewData["Title"] - SGDS</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SGDS_Web.styles.css" asp-append-version="true" />
-
-    <!--Lien css pour dashboard et font awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-
-
-    
-    <!--link pour faire fonctionner le select en combo box-->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SGDS_Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Donneur" asp-action="Index">Donneurs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dons" asp-action="Index">Dons</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Collectes" asp-action="Index">Collectes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Centres" asp-action="Index">Centres</a>
-                        </li>
-                        
-                        
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dossiers" asp-action="Index">Dossiers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="sidebar">
+        <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
+        <a asp-controller="Dashboard" asp-action="Index"><i class="fas fa-chart-line"></i> Dashboard</a>
+        <a asp-controller="Donneur" asp-action="Index"><i class="fas fa-user"></i> Donneurs</a>
+        <a asp-controller="Dons" asp-action="Index"><i class="fas fa-tint"></i> Dons</a>
+        <a asp-controller="Collectes" asp-action="Index"><i class="fas fa-hand-holding-medical"></i> Collectes</a>
+        <a asp-controller="Centres" asp-action="Index"><i class="fas fa-hospital"></i> Centres</a>
+        <a asp-controller="Dossiers" asp-action="Index"><i class="fas fa-folder"></i> Dossiers</a>
+        <a asp-controller="Users" asp-action="Index"><i class="fas fa-users"></i> Users</a>
+        <a asp-controller="Roles" asp-action="Index"><i class="fas fa-user-shield"></i> Roles</a>
+        <a asp-controller="Home" asp-action="Privacy"><i class="fas fa-user-secret"></i> Privacy</a>
+    </div>
+
+    <div class="top-navbar">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SGDS</a>
+        <div class="auth-links">
+            <partial name="_LoginPartial" />
+        </div>
+    </div>
+
+    <div class="main-content">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - SGDS_Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+    <footer class="text-muted text-center">
+        &copy; 2025 SGDS — Tous droits réservés.
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(function() {
-          $('.js-select2').select2({
-            placeholder: "Tapez pour filtrer…",
-            allowClear:    true,
-            width:         '100%'    // ou ce que vous voulez
-          });
+        $(function () {
+            $('.js-select2').select2({
+                placeholder: "Tapez pour filtrer…",
+                allowClear: true,
+                width: '100%'
+            });
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)

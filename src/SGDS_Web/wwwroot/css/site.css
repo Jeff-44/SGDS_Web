@@ -18,8 +18,106 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 0;
 }
+/*Style du Layout global*/
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 220px;
+    background-color: #f8f9fa;
+    padding-top: 60px;
+    border-right: 1px solid #e0e0e0;
+}
+
+    .sidebar a {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
+
+        .sidebar a:hover {
+            background-color: #e6e6e6;
+        }
+
+        .sidebar a i {
+            margin-right: 10px;
+        }
+
+.main-content {
+    margin-left: 220px;
+    padding: 80px 20px 20px 20px;
+    flex: 1;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.sidebar i.fa-tint {
+    color: #D32F2F;
+}
+
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 220px;
+    right: 0;
+    height: 60px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    z-index: 1000;
+}
+
+    .top-navbar .navbar-brand {
+        font-weight: bold;
+        color: #D32F2F;
+        text-decoration: none;
+        font-size: 1.25rem;
+    }
+
+    .top-navbar .auth-links {
+        display: flex;
+        gap: 15px;
+    }
+
+        .top-navbar .auth-links a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .top-navbar .auth-links a:hover {
+                color: #D32F2F;
+            }
+
+.auth-link, .logout-link {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    .auth-link:hover,
+    .logout-link:hover {
+        color: #D32F2F;
+        text-decoration: underline;
+    }
 
 /* Carte personnalisée : Styles du details role */
 .custom-card {
@@ -115,6 +213,28 @@ body {
     font-size: 1.8rem;
     font-weight: bold;
     margin: 0.2rem 0 0 0;
+}
+
+
+/*Login partial style*/
+.auth-link {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    .auth-link:hover {
+        color: #D32F2F !important;
+        text-decoration: underline;
+    }
+
+.top-navbar .auth-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.top-navbar form {
+    margin: 0;
 }
 
  

@@ -2,106 +2,124 @@
 @model RoleVM
 
 @{
-    ViewData["Title"] = "Détails du Role";
+    ViewData["Title"] = "Détails du rôle";
 }
 
-<div class="container py-5">
-    <!-- Breadcrumb de navigation -->
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb bg-light p-2 rounded">
-            <li class="breadcrumb-item"><a href="/Admin/Dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="/Role/Index">Roles</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Détails du Role</li>
-        </ol>
-    </nav>
+<div class="container mt-4">
+    <h3 class="mb-4">
+        <i class="fas fa-user-shield text-danger me-2"></i>Détails du rôle : <span class="text-muted">@Model.Name</span>
+    </h3>
 
-    <div class="card custom-card shadow-sm rounded">
-        <!-- En-tête de la carte -->
-        <div class="card-header custom-card-header text-center" style="background: linear-gradient(90deg, #007bff, #6610f2); border-radius: 0.5rem 0.5rem 0 0;">
-            <h2 class="text-white mb-0">Role: <span>@Model.Name</span></h2>
-        </div>
-
-        <!-- Corps de la carte -->
+    <div class="card shadow-sm border-0">
         <div class="card-body p-4">
-            <!-- Section Membres -->
-            <h4 class="mb-3">Membres</h4>
-            <hr />
-            <form asp-action="RemoveUsersFromRole" method="post">
+
+            <!-- Membres -->
+            <h5 class="mb-3">Membres</h5>
+            <form asp-action="RemoveUsersFromRole" method="post" class="mb-4">
+                @Html.AntiForgeryToken()
                 <input type="hidden" name="roleName" value="@Model.Name" />
-                <div class="table-responsive mb-4">
-                    <table class="table table-hover align-middle">
+                <div class="table-responsive">
+                    <table id="membersTable" class="table table-striped table-hover align-middle mb-0">
                         <thead class="table-light">
                             <tr>
                                 <th>Email</th>
                                 <th>Nom complet</th>
-                                <th class="text-center">Sélection</th>
+                                <th class="text-center">
+                                    <div class="form-check d-inline-block m-0" title="Tout sélectionner">
+                                        <input class="form-check-input js-select-all" type="checkbox" />
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var user in Model.Members)
+                            @if (Model.Members != null && Model.Members.Any())
+                            {
+                                foreach (var user in Model.Members)
+                                {
+                                    var fullName = string.Join(" ", new[] { user.FirstName, user.LastName }.Where(s => !string.IsNullOrWhiteSpace(s)));
+                                    <tr>
+                                        <td>@user.Email</td>
+                                        <td>@(string.IsNullOrWhiteSpace(fullName) ? "-" : fullName)</td>
+                                        <td class="text-center">
+                                            <input type="checkbox" class="js-row-select" name="UserIds" value="@user.Id" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
                             {
                                 <tr>
-                                    <td>@user.Email</td>
-                                    <td>@user.FirstName @user.LastName</td>
-                                    <td class="text-center">
-                                        <input type="checkbox" name="UserIds" value="@user.Id" />
-                                    </td>
+                                    <td colspan="3" class="text-center text-muted py-4">Aucun membre dans ce rôle.</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
-                <div class="text-end mb-4">
-                    <button type="submit" class="btn btn-danger rounded-pill">
-                        <i class="fas fa-user-minus me-1"></i> Remove Selected
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-user-minus me-1"></i> Retirer la sélection
                     </button>
                 </div>
             </form>
 
-            <!-- Section Non Membres -->
-            <h4 class="mb-3">Non Membres</h4>
-            <hr />
+            <!-- Non membres -->
+            <h5 class="mb-3">Non membres</h5>
             <form asp-action="AssignRoleToUsers" method="post">
+                @Html.AntiForgeryToken()
                 <input type="hidden" name="roleName" value="@Model.Name" />
-                <div class="table-responsive mb-4">
-                    <table class="table table-hover align-middle">
+                <div class="table-responsive">
+                    <table id="nonMembersTable" class="table table-striped table-hover align-middle mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th>Username</th>
                                 <th>Email</th>
                                 <th>Nom complet</th>
-                                <th class="text-center">Sélection</th>
+                                <th class="text-center">
+                                    <div class="form-check d-inline-block m-0" title="Tout sélectionner">
+                                        <input class="form-check-input js-select-all" type="checkbox" />
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var user in Model.NonMembers)
+                            @if (Model.NonMembers != null && Model.NonMembers.Any())
+                            {
+                                foreach (var user in Model.NonMembers)
+                                {
+                                    var fullName = string.Join(" ", new[] { user.FirstName, user.LastName }.Where(s => !string.IsNullOrWhiteSpace(s)));
+                                    <tr>
+                                        <td>@user.Email</td>
+                                        <td>@(string.IsNullOrWhiteSpace(fullName) ? "-" : fullName)</td>
+                                        <td class="text-center">
+                                            <input type="checkbox" class="js-row-select" name="UserIds" value="@user.Id" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
                             {
                                 <tr>
-                                    <td>@user.Email</td>
-                                    <td>@user.FirstName @user.LastName</td>
-                                    <td class="text-center">
-                                        <input type="checkbox" name="UserIds" value="@user.Id" />
-                                    </td>
+                                    <td colspan="3" class="text-center text-muted py-4">Aucun utilisateur disponible.</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
-                <div class="text-end">
-                    <button type="submit" class="btn btn-success rounded-pill">
-                        <i class="fas fa-user-plus me-1"></i> Assign Selected
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-user-plus me-1"></i> Assigner la sélection
                     </button>
                 </div>
             </form>
+
         </div>
 
-        <!-- Pied de carte avec boutons d'action -->
-        <div class="card-footer text-end bg-light py-3">
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary rounded-pill me-2" title="Modifier">
+        <!-- Pied de carte -->
+        <div class="card-footer bg-light py-3 d-flex flex-column flex-sm-row gap-2 justify-content-end">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-danger">
                 <i class="fas fa-edit me-1"></i> Modifier
             </a>
-            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill" title="Retour aux Roles">
-                <i class="fas fa-arrow-left me-1"></i> Retour aux Roles
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Retour aux rôles
             </a>
         </div>
     </div>
@@ -111,4 +129,39 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        // Gestion "Tout sélectionner" avec état indéterminé
+        (function () {
+            function wireSelectAll(tableId) {
+                const table = document.getElementById(tableId);
+                if (!table) return;
+
+                const selectAll = table.querySelector('.js-select-all');
+                const rowChecks = Array.from(table.querySelectorAll('tbody .js-row-select'));
+
+                function refreshHeader() {
+                    const total = rowChecks.length;
+                    const checked = rowChecks.filter(c => c.checked).length;
+                    if (!selectAll) return;
+                    selectAll.checked = total > 0 && checked === total;
+                    selectAll.indeterminate = checked > 0 && checked < total;
+                }
+
+                if (selectAll) {
+                    selectAll.addEventListener('change', function () {
+                        rowChecks.forEach(c => { c.checked = selectAll.checked; });
+                        refreshHeader();
+                    });
+                }
+
+                rowChecks.forEach(c => c.addEventListener('change', refreshHeader));
+
+                // init
+                refreshHeader();
+            }
+
+            wireSelectAll('membersTable');
+            wireSelectAll('nonMembersTable');
+        })();
+    </script>
 }
