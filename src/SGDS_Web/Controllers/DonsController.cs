@@ -1,7 +1,9 @@
 ﻿using ApplicationCore.Entities.Collectes;
 using ApplicationCore.Entities.Location;
 using ApplicationCore.Interfaces.IServices;
+using ApplicationCore.Static;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +11,7 @@ using SGDS_Web.ViewModels.Dons;
 
 namespace SGDS_Web.Controllers
 {
+    [Authorize(Policy = Policies.CanWrite)]
     public class DonsController : Controller
     {
         private readonly IDonService _donService;

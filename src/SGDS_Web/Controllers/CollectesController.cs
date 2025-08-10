@@ -1,6 +1,8 @@
 ﻿using ApplicationCore.Entities.Collectes;
 using ApplicationCore.Interfaces.IServices;
+using ApplicationCore.Static;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +10,7 @@ using SGDS_Web.ViewModels.Collectes;
 
 namespace SGDS_Web.Controllers
 {
+    [Authorize(Policy = Policies.AdminManager)]
     public class CollectesController : Controller
     {
         private readonly ICollecteService _collecteService;
@@ -22,13 +25,14 @@ namespace SGDS_Web.Controllers
             _centreService = centreService;
             _mapper = mapper;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var collectes = await _collecteService.GetAllCollectesAsync();
             var collectevms = _mapper.Map<List<CollecteVM>>(collectes);
             return View(collectevms);
         }
-
+        [AllowAnonymous]
         // GET: CollectesController/Details/5
         public async Task<IActionResult> Details(long id)
         {
@@ -36,7 +40,7 @@ namespace SGDS_Web.Controllers
             var collectevm = _mapper.Map<CollecteVM>(collecte);
             return View(collectevm);
         }
-
+        
         // GET: CollectesController/Create
         public async Task<IActionResult>  Create()
         {
@@ -47,7 +51,7 @@ namespace SGDS_Web.Controllers
             };
             return View(vm);
         }
-
+        
         // POST: CollectesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -69,7 +73,7 @@ namespace SGDS_Web.Controllers
             }
             return View(vm);
         }
-
+        
         // GET: CollectesController/Edit/5
         public async Task<IActionResult> Edit(long id)
         {

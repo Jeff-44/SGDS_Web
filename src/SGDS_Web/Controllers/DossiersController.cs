@@ -1,7 +1,9 @@
 ﻿using ApplicationCore.Entities.Collectes;
 using ApplicationCore.Interfaces.IServices;
+using ApplicationCore.Static;
 using AutoMapper;
 using Infrastructure.Migrations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +13,7 @@ using SGDS_Web.ViewModels.Dossiers;
 
 namespace SGDS_Web.Controllers
 {
+    [Authorize(Policy = Policies.CanWrite)]
     public class DossiersController : Controller
     {
         private readonly IDossierService _dossierService;

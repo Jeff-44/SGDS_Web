@@ -1,12 +1,15 @@
 ﻿using ApplicationCore.Entities.Users;
 using ApplicationCore.Interfaces.IServices;
+using ApplicationCore.Static;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGDS_Web.ViewModels.Users;
 
 namespace SGDS_Web.Controllers
 {
+    [Authorize(Policy = Policies.AdminOnly)]
     public class RolesController : Controller
     {
         private readonly IUserService _userService;
@@ -22,13 +25,14 @@ namespace SGDS_Web.Controllers
             _roleService = roleService;
             _mapper = mapper;
         }
+        [Authorize(Policy = Policies.AdminManager)]
         // GET: RolesController
         public async Task<IActionResult> Index()
         {
             var roles = await _roleService.GetAllRolesAsync();
             return View(_mapper.Map<List<RoleVM>>(roles));
         }
-
+        
         // GET: RolesController/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -77,7 +81,7 @@ namespace SGDS_Web.Controllers
                 return View(vm);
             }
         }
-
+        
         // GET: RolesController/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
