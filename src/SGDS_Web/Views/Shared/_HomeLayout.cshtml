@@ -188,21 +188,29 @@
                                asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Home/Privacy") == true ? "active" : "")"
-                               asp-area="" asp-controller="Home" asp-action="Privacy">Confidentialité</a>
+                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Home/Services") == true ? "active" : "")"
+                               asp-area="" asp-controller="Services" asp-action="Index">Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Donneur") == true ? "active" : "")"
-                               asp-area="" asp-controller="Donneur" asp-action="Index">Donneurs</a>
+                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Contact") == true ? "active" : "")"
+                               asp-area="" asp-controller="Contact" asp-action="Index">Contact</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Dons") == true ? "active" : "")"
-                               asp-area="" asp-controller="Dons" asp-action="Index">Dons</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(Context.Request.Path.Value?.Contains("/Collectes") == true ? "active" : "")"
-                               asp-area="" asp-controller="Collectes" asp-action="Index">Collectes</a>
-                        </li>
+                        @{
+                            // if (User.IsInRole("Admin"))
+                            // {
+                            //     <li class="nav-item">
+                            //         <a class="nav-link @(Context.Request.Path.Value?.Contains("/Dashboard") == true ? "active" : "")"
+                            //            asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                            //     </li>
+                            // }
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(Context.Request.Path.Value?.Contains("/Dashboard") == true ? "active" : "")"
+                                       asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                                </li>
+                            }
+                        }
                         <li class="nav-item ms-2"><partial name="_LoginPartial" /></li>
                     </ul>
                 </div>
@@ -233,9 +241,9 @@
                     <h5 class="fw-semibold mb-3">Liens rapides</h5>
                     <ul class="list-unstyled">
                         <li><a asp-controller="Home" asp-action="Index" class="footer-link">Accueil</a></li>
-                        <li><a asp-controller="Donneur" asp-action="Index" class="footer-link">Donneurs</a></li>
-                        <li><a asp-controller="Dons" asp-action="Index" class="footer-link">Dons</a></li>
-                        <li><a asp-controller="Collectes" asp-action="Index" class="footer-link">Collectes</a></li>
+                        <li><a asp-controller="Home" asp-action="Index" class="footer-link">Services</a></li>
+                        <li><a asp-controller="Contact" asp-action="Index" class="footer-link">Contact</a></li>
+                        <li><a asp-controller="Donate" asp-action="Index" class="footer-link">Faire un don</a></li>
                     </ul>
                 </div>
 

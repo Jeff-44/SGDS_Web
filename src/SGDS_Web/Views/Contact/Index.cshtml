@@ -1,0 +1,72 @@
+﻿@using SGDS_Web.ViewModels
+@model ContactVM
+@{
+    ViewData["Title"] = "Contact";
+    Layout = "_LoginLayout"; // ou "_Layout" si tu veux la navigation complète
+}
+
+<div class="row w-100 justify-content-center m-0">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 p-0">
+
+        <div class="card login-card border-0 shadow-lg rounded-4 hover-lift">
+            <div class="card-body p-4 p-md-5">
+
+                <div class="text-center">
+                    <img src="~/images/logo.png" alt="Logo" class="mb-3" style="max-height:64px;">
+                    <h2 class="mb-1 text-danger fw-semibold">Nous contacter</h2>
+                    <p class="text-muted mb-4">Une question, une suggestion ? Écrivez-nous.</p>
+                </div>
+
+                @if (TempData["ContactSuccess"] is string ok && !string.IsNullOrWhiteSpace(ok))
+                {
+                    <div class="alert alert-success rounded-3" role="alert">@ok</div>
+                }
+
+                <form asp-action="Index" asp-controller="Contact" method="post" novalidate class="text-start">
+                    @Html.AntiForgeryToken()
+
+                    <!-- Honeypot anti-spam (caché aux utilisateurs) -->
+                    <input type="text" name="website" class="d-none" tabindex="-1" autocomplete="off" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Name" class="form-control" placeholder="Votre nom complet" />
+                        <label asp-for="Name"></label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Email" class="form-control" placeholder="vous@example.com" />
+                        <label asp-for="Email"></label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Subject" class="form-control" placeholder="Sujet" />
+                        <label asp-for="Subject"></label>
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Message" class="form-label"></label>
+                        <textarea asp-for="Message" class="form-control" rows="5" placeholder="Écrivez votre message..."></textarea>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="w-100 btn btn-lg btn-danger rounded-3">Envoyer</button>
+
+                    <div class="mt-3 small text-center">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="text-decoration-none">Retour à l’accueil</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
