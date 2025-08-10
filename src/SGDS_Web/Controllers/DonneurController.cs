@@ -1,6 +1,8 @@
 ﻿using ApplicationCore.Entities.Collectes;
 using ApplicationCore.Interfaces.IServices;
+using ApplicationCore.Static;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace SGDS_Web.Controllers
 {
+    [Authorize(Policy = Policies.CanWrite)]
     public class DonneurController : Controller
     {
         private readonly IDonneurService _donneurService;

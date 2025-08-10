@@ -1,11 +1,13 @@
 using ApplicationCore.Interfaces.IRepositories;
 using ApplicationCore.Interfaces.IServices;
+using ApplicationCore.Static;
 using Infrastructure.DataAccess;
 using Infrastructure.Identity;
 using Infrastructure.Implementations.Repositories;
 using Infrastructure.Implementations.Services;
 using Infrastructure.Mappings;
 using Infrastructure.Settings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -97,6 +99,34 @@ builder.Services.AddScoped<IDepartementService, DepartementService>();
 
 // Other services
 builder.Services.AddScoped<IEligibilityService, EligibilityService>();
+
+// Configure Policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(Policies.AdminOnly, policy => policy.RequireRole(Roles.Admin));
+    options.AddPolicy(Policies.AdminManager, policy => policy.RequireRole(Roles.Admin, Roles.Manager));
+    options.AddPolicy(Policies.CanWrite, policy => policy.RequireRole(Roles.Admin, Roles.Manager, Roles.Agent));
+});
+
+builder.Services.AddAuthorization(
+    options =>
+    {
+        options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+    });
+
+builder.Services.ConfigureApplicationCookie(
+    options =>
+    { 
+        options.LoginPath = "/Identity/Account/Login";
+        options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+        options.SlidingExpiration = true;
+        //options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.ExpireTimeSpan = TimeSpan.FromSeconds(60);
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    });
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope()) 
@@ -120,7 +150,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

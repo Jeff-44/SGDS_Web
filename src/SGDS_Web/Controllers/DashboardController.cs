@@ -1,10 +1,13 @@
 ﻿using ApplicationCore.Interfaces.IServices;
+using ApplicationCore.Static;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SGDS_Web.ViewModels.Statistics;
 
 namespace SGDS_Web.Controllers
 {
+    [Authorize(Policy = Policies.AdminManager)]
     public class DashboardController : Controller
     {
         private readonly IStatisticsService _statisticsService;

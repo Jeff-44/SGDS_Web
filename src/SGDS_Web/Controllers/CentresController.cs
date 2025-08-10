@@ -1,8 +1,10 @@
 ﻿using ApplicationCore.Entities.Location;
 using ApplicationCore.Entities.Reference;
 using ApplicationCore.Interfaces.IServices;
+using ApplicationCore.Static;
 using AutoMapper;
 using Infrastructure.Implementations.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +14,7 @@ using SGDS_Web.ViewModels.Reference;
 
 namespace SGDS_Web.Controllers
 {
+    [Authorize(Policy = Policies.AdminManager)]
     public class CentresController : Controller
     {
         private readonly ICentreService _centreService;
@@ -174,7 +177,7 @@ namespace SGDS_Web.Controllers
             }
             return View(vm);
         }
-
+        [Authorize(Policy = Policies.AdminOnly)]
         // GET: centresController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
@@ -187,6 +190,7 @@ namespace SGDS_Web.Controllers
             return View(centrevm);
         }
 
+        [Authorize(Policy = Policies.AdminOnly)]
         // POST: centresController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]

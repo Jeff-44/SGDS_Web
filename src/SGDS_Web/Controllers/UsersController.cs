@@ -1,12 +1,15 @@
 ﻿using ApplicationCore.Entities.Users;
 using ApplicationCore.Interfaces.IServices;
+using ApplicationCore.Static;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGDS_Web.ViewModels.Users;
 
 namespace SGDS_Web.Controllers
 {
+    [Authorize(Policy = Policies.AdminManager)]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -83,6 +86,7 @@ namespace SGDS_Web.Controllers
             return View(vm);
         }
 
+        [Authorize(Policy = Policies.AdminOnly)]
         // GET: UsersController/Delete/5
         public async Task<IActionResult> Delete(string Id)
         {
@@ -97,6 +101,7 @@ namespace SGDS_Web.Controllers
             }
         }
 
+        [Authorize(Policy = Policies.AdminOnly)]
         // POST: UsersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]

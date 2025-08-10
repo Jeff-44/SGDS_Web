@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Settings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -6,6 +7,7 @@ using SGDS_Web.ViewModels;
 
 namespace SGDS_Web.Controllers
 {
+    [AllowAnonymous]
     public class ContactController : Controller
     {
         private readonly IEmailSender _emailSender;
