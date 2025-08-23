@@ -127,6 +127,41 @@ builder.Services.ConfigureApplicationCookie(
         options.Cookie.HttpOnly = true;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     });
+
+
+// add a default admin user
+using (var scope = builder.Services.BuildServiceProvider().CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var adminEmail = "admin@sgds.com";
+
+    if (!await roleManager.RoleExistsAsync(Roles.Admin))
+    {
+        var adminRole = new IdentityRole(Roles.Admin);
+        await roleManager.CreateAsync(adminRole);
+    }
+
+    if (await userManager.FindByEmailAsync(adminEmail) == null) 
+    {
+        var adminUser = new ApplicationUser 
+        { 
+            UserName = adminEmail, 
+            Email = adminEmail, 
+            EmailConfirmed = true 
+        };
+        var createResult = await userManager.CreateAsync(adminUser, "Admin123*");
+        if (createResult.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, Roles.Admin);
+        }
+        else
+        {
+            throw new Exception($"Erreur lors de la creation de l'utilisateur admin: {string.Join(", ", createResult.Errors.Select(e => e.Description))}");
+        }
+    }
+
+}
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope()) 

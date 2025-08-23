@@ -17,6 +17,8 @@ namespace ApplicationCore.Entities.Collectes
         public DateOnly DateCollecte { get; set; }
         public int CentreId { get; set; }
         public Centre? Centre { get; set; }
-   
+
+        //public int Capacite { get; set; }
+
     }
 }
